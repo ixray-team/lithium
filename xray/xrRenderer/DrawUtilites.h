@@ -6,22 +6,6 @@
 
 class DrawUtilites : public CDUInterface
 {
-private:
-	static CDUInterface* _instance;
-
-protected:
-	DrawUtilites() {};
-
-public:
-	static CDUInterface* Instance() {
-		if (_instance == nullptr)
-		{
-			_instance = new DrawUtilites();
-		}
-
-		return _instance;
-	}
-
 public:
 	void __stdcall DrawCross(const Fvector& p, float szx1, float szy1, float szz1, float szx2, float szy2, float szz2, u32 clr, BOOL bRot45 = false) override;
 	void __stdcall DrawCross(const Fvector& p, float sz, u32 clr, BOOL bRot45 = false) override;
@@ -89,3 +73,4 @@ public:
 	void __stdcall OnDeviceDestroy() override;
 };
 
+extern DrawUtilites DrawUtilites_instance;

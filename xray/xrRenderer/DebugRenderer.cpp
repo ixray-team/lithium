@@ -2,6 +2,18 @@
 #include "DebugRenderer.h"
 #include <stdexcept>
 
+IDebugRender* DebugRenderer::_instance;
+
+IDebugRender* DebugRenderer::Instance()
+{
+	if (_instance == nullptr)
+	{
+		_instance = new DebugRenderer();
+	}
+
+	return _instance;
+}
+
 void DebugRenderer::Render()
 {
 	throw std::logic_error("The method or operation is not implemented.");

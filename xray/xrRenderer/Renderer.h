@@ -11,14 +11,7 @@ protected:
 	Renderer() {};
 
 public:
-	static IRender_interface* Instance() {
-		if (_instance == nullptr)
-		{
-			_instance = new Renderer();
-		}
-
-		return _instance;
-	}
+	static IRender_interface* Instance();
 
 public:
 	GenerationLevel get_generation() override;

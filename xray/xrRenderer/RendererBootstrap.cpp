@@ -12,7 +12,7 @@ void RendererBootstrap()
 {
 	::Render = Renderer::Instance();
 	::RenderFactory = RendererFactory::Instance();
-	::DU = DrawUtilites::Instance();
+	::DU = &DrawUtilites_instance;
 	::UIRender = UiRenderer::Instance();
 #ifdef DEBUG
 	::DRender = DebugRenderer::Instance();

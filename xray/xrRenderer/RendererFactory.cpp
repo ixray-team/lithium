@@ -2,6 +2,19 @@
 #include "RendererFactory.h"
 
 #include <stdexcept>
+#include "RenderingDevice.h"
+
+IRenderFactory* RendererFactory::_instance;
+
+IRenderFactory* RendererFactory::Instance()
+{
+	if (_instance == nullptr)
+	{
+		_instance = new RendererFactory();
+	}
+
+	return _instance;
+}
 
 IUISequenceVideoItem* RendererFactory::CreateUISequenceVideoItem()
 {
@@ -50,7 +63,7 @@ void RendererFactory::DestroyRenderDeviceRender(IRenderDeviceRender* pObject)
 
 IRenderDeviceRender* RendererFactory::CreateRenderDeviceRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new RenderingDevice();
 }
 
 void RendererFactory::DestroyObjectSpaceRender(IObjectSpaceRender* pObject)

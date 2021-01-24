@@ -2,6 +2,18 @@
 #include "UiRenderer.h"
 #include <stdexcept>
 
+IUIRender* UiRenderer::_instance;
+
+IUIRender* UiRenderer::Instance()
+{
+	if (_instance == nullptr)
+	{
+		_instance = new UiRenderer();
+	}
+
+	return _instance;
+}
+
 void UiRenderer::CreateUIGeom()
 {
 	throw std::logic_error("The method or operation is not implemented.");

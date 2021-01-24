@@ -12,14 +12,7 @@ protected:
 	DebugRenderer() {};
 
 public:
-	static IDebugRender* Instance() {
-		if (_instance == nullptr)
-		{
-			_instance = new DebugRenderer();
-		}
-
-		return _instance;
-	}
+	static IDebugRender* Instance();
 
 public:
 	void Render() override;

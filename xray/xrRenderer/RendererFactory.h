@@ -13,14 +13,7 @@ protected:
 	RendererFactory() {};
 
 public:
-	static IRenderFactory* Instance() {
-		if (_instance == nullptr)
-		{
-			_instance = new RendererFactory();
-		}
-
-		return _instance;
-	}
+	static IRenderFactory* Instance();
 
 public:
 	IUISequenceVideoItem* CreateUISequenceVideoItem() override;

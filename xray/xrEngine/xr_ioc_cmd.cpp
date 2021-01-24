@@ -780,7 +780,7 @@ void CCC_Register()
 	CMD2(CCC_Float,		"cam_inert",			&psCamInert);
 	CMD2(CCC_Float,		"cam_slide_inert",		&psCamSlideInert);
 
-	CMD1(CCC_r2,		"renderer"				);
+	//CMD1(CCC_r2,		"renderer"				);
 
 #ifndef DEDICATED_SERVER
 	CMD1(CCC_soundDevice, "snd_device"			);

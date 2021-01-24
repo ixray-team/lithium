@@ -11,14 +11,7 @@ protected:
 	UiRenderer() {};
 
 public:
-	static IUIRender* Instance() {
-		if (_instance == nullptr)
-		{
-			_instance = new UiRenderer();
-		}
-
-		return _instance;
-	}
+	static IUIRender* Instance();
 
 public:
 	void CreateUIGeom() override;

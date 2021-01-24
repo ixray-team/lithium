@@ -172,7 +172,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)3rd party/onyx;$(SolutionDir)3rd party/imdexlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>lualib.lib;onyx.lib;luabind.0.9.lib;d3d9.lib;d3dx9.lib;dxguid.lib;d3dx11.lib;d3d11.lib;dxgi.lib;D3DCompiler.lib;nvapi64.lib;d3d10.lib;$(TargetDir)xrEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lualib.lib;onyx.lib;luabind.0.9.lib;d3d9.lib;d3dx9.lib;dxguid.lib;d3dx11.lib;d3d11.lib;dxgi.lib;D3DCompiler.lib;nvapi64.lib;d3d10.lib;$(TargetDir)xrCore.lib;$(TargetDir)xrEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>
       </MapFileName>
@@ -359,6 +359,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererBootstrap.h" />
     <ClInclude Include="RendererFactory.h" />
+    <ClInclude Include="RenderingDevice.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="UiRenderer.h" />
   </ItemGroup>
@@ -368,6 +369,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RendererBootstrap.cpp" />
     <ClCompile Include="RendererFactory.cpp" />
+    <ClCompile Include="RenderingDevice.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>

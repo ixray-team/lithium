@@ -20,9 +20,11 @@
     <ClInclude Include="DebugRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="RenderingDevice.h">
+      <Filter>Device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="RendererBootstrap.cpp">
       <Filter>Loader</Filter>
     </ClCompile>
@@ -41,6 +43,10 @@
     <ClCompile Include="DebugRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="RenderingDevice.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Loader">
@@ -57,6 +63,9 @@
     </Filter>
     <Filter Include="UIRenderer">
       <UniqueIdentifier>{c77d6d48-65f6-4a34-8378-835d589d27db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Device">
+      <UniqueIdentifier>{a09d8d59-5333-428b-9624-7b18bb5232f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

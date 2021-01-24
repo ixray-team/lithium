@@ -2,6 +2,8 @@
 #include "DrawUtilites.h"
 #include <stdexcept>
 
+DrawUtilites DrawUtilites_instance;
+
 void __stdcall DrawUtilites::DrawCross(const Fvector& p, float szx1, float szy1, float szz1, float szx2, float szy2, float szz2, u32 clr, BOOL bRot45 /*= false*/)
 {
 	throw std::logic_error("The method or operation is not implemented.");

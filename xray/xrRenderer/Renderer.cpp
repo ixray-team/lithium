@@ -3,6 +3,18 @@
 
 #include <stdexcept>
 
+IRender_interface* Renderer::_instance;
+
+IRender_interface* Renderer::Instance()
+{
+	if (_instance == nullptr)
+	{
+		_instance = new Renderer();
+	}
+
+	return _instance;
+}
+
 IRender_interface::GenerationLevel Renderer::get_generation()
 {
 	return IRender_interface::GENERATION_R2;
@@ -168,9 +180,9 @@ IRenderVisual* Renderer::model_CreateParticles(LPCSTR name)
 	throw std::logic_error("The method or operation is not implemented.");
 }
 
-IRenderVisual* IRender_interface::model_Create(LPCSTR name, IReader* data /*= 0*/)
+IRenderVisual* Renderer::model_Create(LPCSTR name, IReader* data /*= 0*/)
 {
-
+	throw std::logic_error("The method or operation is not implemented.");
 }
 
 IRenderVisual* Renderer::model_CreateChild(LPCSTR name, IReader* data)
