@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="RendererBootstrap.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererFactory.h">
+      <Filter>Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawUtilites.h">
+      <Filter>DrawUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="UiRenderer.h">
+      <Filter>UIRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="RendererBootstrap.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererFactory.cpp">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawUtilites.cpp">
+      <Filter>DrawUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="UiRenderer.cpp">
+      <Filter>UIRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Loader">
+      <UniqueIdentifier>{d07d2395-7df0-4d00-93c6-77481e0284d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{5bdcd71b-4d6c-416d-ad79-66a9c2d7aa56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factory">
+      <UniqueIdentifier>{01d166f7-8a28-47c0-9f38-c915d6729d58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DrawUtils">
+      <UniqueIdentifier>{62291a14-2440-46c7-82aa-c49020d44b16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UIRenderer">
+      <UniqueIdentifier>{c77d6d48-65f6-4a34-8378-835d589d27db}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -84,12 +84,6 @@ public:
 	}
 };
 
-/*
-#if sizeof(Fmaterial)!=sizeof(D3DMATERIAL9) 
-#error Different structure size
-#endif
-*/
-
 #endif
 
 #ifndef NO_XR_VDECLARATOR

@@ -213,7 +213,7 @@ public:
 
 	u32 			find_chunk  (u32 ID, BOOL* bCompressed);
 	
-	IC	BOOL		r_chunk		(u32 ID, void *dest)	// чтение XR Chunk'ов (4b-ID,4b-size,??b-data)
+	IC	BOOL		r_chunk		(u32 ID, void *dest)	// пїЅпїЅпїЅпїЅпїЅпїЅ XR Chunk'пїЅпїЅ (4b-ID,4b-size,??b-data)
 	{
 		u32	dwSize = ((implementation_type*)this)->find_chunk(ID);
 		if (dwSize!=0) {
@@ -222,7 +222,7 @@ public:
 		} else return FALSE;
 	}
 	
-	IC	BOOL		r_chunk_safe(u32 ID, void *dest, u32 dest_size)	// чтение XR Chunk'ов (4b-ID,4b-size,??b-data)
+	IC	BOOL		r_chunk_safe(u32 ID, void *dest, u32 dest_size)	// пїЅпїЅпїЅпїЅпїЅпїЅ XR Chunk'пїЅпїЅ (4b-ID,4b-size,??b-data)
 	{
 		u32	dwSize = ((implementation_type*)this)->find_chunk(ID);
 		if (dwSize!=0) {
@@ -293,7 +293,7 @@ public:
 	void			close		();
 
 public:
-	// поиск XR Chunk'ов - возврат - размер или 0
+	// пїЅпїЅпїЅпїЅпїЅ XR Chunk'пїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ 0
 	IReader*		open_chunk	(u32 ID);
 
 	// iterators

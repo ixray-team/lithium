@@ -4,8 +4,6 @@
 // Support for extension DLLs
 //****************************************************************************
 
-#if !defined(AFX_ENGINEAPI_H__CF21372B_C8B8_4891_82FC_D872C84E1DD4__INCLUDED_)
-#define AFX_ENGINEAPI_H__CF21372B_C8B8_4891_82FC_D872C84E1DD4__INCLUDED_
 #pragma once
 
 // Abstract 'Pure' class for DLL interface
@@ -34,22 +32,23 @@ extern "C" {
 class ENGINE_API		CEngineAPI
 {
 private:
+	class DynamicLibRef* pLibGame;
 	HMODULE				hGame;
+
+private:
+	class DynamicLibRef* pLibRenderer;
 	HMODULE				hRender;
+
+private:
 	HMODULE				hTuner;
 public:
-	BENCH_SEC_SCRAMBLEMEMBER1
 	Factory_Create*		pCreate;
 	Factory_Destroy*	pDestroy;
 	BOOL				tune_enabled;
 	VTPause*			tune_pause	;
 	VTResume*			tune_resume	;
 	void				Initialize	();
-	
-	#ifndef DEDICATED_SERVER
-		void				InitializeNotDedicated();
-	#endif // DEDICATED_SERVER
-	
+	void				InitializeNotDedicated();
 	void				Destroy		();
 
 	void				CreateRendererList();
@@ -60,5 +59,3 @@ public:
 
 #define NEW_INSTANCE(a)		Engine.External.pCreate(a)
 #define DEL_INSTANCE(a)		{ Engine.External.pDestroy(a); a=NULL; }
-
-#endif // !defined(AFX_ENGINEAPI_H__CF21372B_C8B8_4891_82FC_D872C84E1DD4__INCLUDED_)

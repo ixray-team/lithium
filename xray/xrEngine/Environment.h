@@ -23,11 +23,7 @@ class CLensFlareDescriptor;
 #include "../Include/xrRender/FactoryPtr.h"
 #include "../Include/xrRender/EnvironmentRender.h"
 
-#ifdef INGAME_EDITOR
-#	define	INGAME_EDITOR_VIRTUAL	virtual
-#else // #ifdef INGAME_EDITOR
 #	define	INGAME_EDITOR_VIRTUAL
-#endif // #ifdef INGAME_EDITOR
 
 // t-defs
 class ENGINE_API	CEnvModifier
@@ -210,7 +206,7 @@ public:
 class ENGINE_API	CEnvironment
 {
 	friend class dxEnvironmentRender;
-	struct str_pred : public std::binary_function<shared_str, shared_str, bool>	{	
+	struct str_pred /*: public std::binary_function<shared_str, shared_str, bool>*/	{	
 		IC bool operator()(const shared_str& x, const shared_str& y) const
 		{	return xr_strcmp(x,y)<0;	}
 	};
@@ -325,9 +321,6 @@ public:
     void					ED_Reload			();
     float					GetGameTime			(){return fGameTime;}
 #else // #ifdef _EDITOR
-#	ifdef INGAME_EDITOR
-		float				GetGameTime			(){return fGameTime;}
-#	endif // #ifdef INGAME_EDITOR
 
 	bool					m_paused;
 #endif // #ifdef _EDITOR

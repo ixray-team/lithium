@@ -2,6 +2,8 @@
 #define STDAFX_3DA
 #pragma once
 
+#define _ENFORCE_MATCHING_ALLOCATORS 0
+
 #ifdef _EDITOR
 	#include "..\editors\ECore\stdafx.h"
 #else
@@ -9,20 +11,23 @@
 #include "../xrCore/xrCore.h"
 #include "../Include/xrAPI/xrAPI.h"
 
-#ifndef NDEBUG
-#	ifndef INGAME_EDITOR
-#		define	INGAME_EDITOR
-#	endif // #ifndef INGAME_EDITOR
-#endif // #ifndef NDEBUG
-
 #ifdef _DEBUG
 #	define D3D_DEBUG_INFO
 #endif
 
+#define LITHIUM_EXTERNAL_RENDERER
+
+#ifdef LITHIUM_EXTERNAL_RENDERER
+#ifndef PLATFORM_WIN32
+#define PLATFORM_WIN32 1
+#endif
+#endif
+
+#ifndef LITHIUM_EXTERNAL_RENDERER
 #pragma warning(disable:4995)
 #include <d3d9.h>
-//#include <dplay8.h>
 #pragma warning(default:4995)
+#endif
 
 // you must define ENGINE_BUILD then building the engine itself
 // and not define it if you are about to build DLL

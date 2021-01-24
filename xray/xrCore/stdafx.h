@@ -8,6 +8,8 @@
 
 #pragma warning (disable:4661)
 
+#define _ENFORCE_MATCHING_ALLOCATORS 0
+
 #include "xrCore.h"
 #include "xrCore_platform.h"
 //.#include "../../Include/xrAPI/xrAPI.h"

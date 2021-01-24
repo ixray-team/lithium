@@ -155,12 +155,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h" />
     <ClInclude Include="onyx\crc.h" />
+    <ClInclude Include="onyx\DynamicLibRef.h" />
+    <ClInclude Include="onyx\framework.h" />
     <ClInclude Include="onyx\noncopyable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="onyx\crc.cpp" />
+    <ClCompile Include="onyx\DynamicLibRef.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

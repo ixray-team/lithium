@@ -10,9 +10,9 @@ u16	CBone::get_game_mtl_idx	( )			const
 	return GMLib.GetMaterialIdx(game_mtl.c_str());
 }
 
-static const Fobb	dummy = Fobb().identity();
 const	Fobb&		CBone::	get_obb				( )			const
 {
+	static const Fobb dummy = Fobb().identity();
 	return dummy;
 }
 //////////////////////////////////////////////////////////////////////////

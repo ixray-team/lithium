@@ -79,7 +79,6 @@ public:
 	virtual void					OnAppDeactivate		();
 	virtual void		_BCL		OnFrame				();
 
-	// вызывается только когда изменяется тип игры
 	virtual	void					OnGameStart			(); 
 	virtual void					OnGameEnd			();
 

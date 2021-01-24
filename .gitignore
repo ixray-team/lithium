@@ -346,3 +346,6 @@ MigrationBackup/
 # Other targets
 intermediate/
 opt/
+
+# Diligent engine
+SDK/Diligent*
