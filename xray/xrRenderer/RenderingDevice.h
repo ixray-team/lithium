@@ -2,6 +2,9 @@
 
 #include "Include/RenderDeviceRender.h"
 
+#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/EngineFactoryOpenGL.h"
+#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/RenderDeviceGL.h"
+
 class RenderingDevice : public IRenderDeviceRender
 {
 public:

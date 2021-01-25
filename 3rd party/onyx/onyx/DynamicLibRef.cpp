@@ -5,7 +5,7 @@
 DynamicLibRef::DynamicLibRef(std::string libName, const std::function<void()>& err)
 {
 	moduleHandle = LoadLibraryA(libName.c_str());
-	if (moduleHandle = NULL)
+	if (moduleHandle == NULL)
 	{
 		err();
 	}

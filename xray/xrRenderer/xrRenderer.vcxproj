@@ -158,7 +158,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <PreprocessorDefinitions>MSAA_DX10_1;MSAA_SAMPLES=4;USE_MSAA;GBUFFER_OPTIMIZATION;WIN32;DEBUG;_WINDOWS;_USRDLL;XRRENDER_R4_EXPORTS;_SECURE_SCL=0;USE_DX11;USE_RESOURCE_DEBUGGER;LUABIND_DYNAMIC_LINK;LUABIND_NO_EXCEPTIONS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENGINE_DLL;MSAA_DX10_1;MSAA_SAMPLES=4;USE_MSAA;GBUFFER_OPTIMIZATION;WIN32;DEBUG;_WINDOWS;_USRDLL;XRRENDER_R4_EXPORTS;_SECURE_SCL=0;USE_DX11;USE_RESOURCE_DEBUGGER;LUABIND_DYNAMIC_LINK;LUABIND_NO_EXCEPTIONS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -169,7 +169,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <DisableSpecificWarnings>4456;4457;4458;4459;4595</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rd party/onyx;$(SolutionDir)3rd party/imdexlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rd party/onyx;$(SolutionDir)3rd party/imdexlib;$(SolutionDir)SDK/DiligentEngine/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>lualib.lib;onyx.lib;luabind.0.9.lib;d3d9.lib;d3dx9.lib;dxguid.lib;d3dx11.lib;d3d11.lib;dxgi.lib;D3DCompiler.lib;nvapi64.lib;d3d10.lib;$(TargetDir)xrCore.lib;$(TargetDir)xrEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -354,26 +354,36 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationRenderer.h" />
     <ClInclude Include="DebugRenderer.h" />
     <ClInclude Include="DrawUtilites.h" />
+    <ClInclude Include="EnvironmentRenderer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererBootstrap.h" />
     <ClInclude Include="RendererFactory.h" />
     <ClInclude Include="RenderingDevice.h" />
+    <ClInclude Include="StatsRenderer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="UiRenderer.h" />
+    <ClInclude Include="UIShader.h" />
+    <ClInclude Include="WallmarkArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ApplicationRenderer.cpp" />
     <ClCompile Include="DebugRenderer.cpp" />
     <ClCompile Include="DrawUtilites.cpp" />
+    <ClCompile Include="EnvironmentRenderer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RendererBootstrap.cpp" />
     <ClCompile Include="RendererFactory.cpp" />
     <ClCompile Include="RenderingDevice.cpp" />
+    <ClCompile Include="StatsRenderer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="UiRenderer.cpp" />
+    <ClCompile Include="UIShader.cpp" />
+    <ClCompile Include="WallmarkArray.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

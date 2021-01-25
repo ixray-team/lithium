@@ -9,22 +9,18 @@ void RenderingDevice::Copy(IRenderDeviceRender& _in)
 
 void RenderingDevice::setGamma(float fGamma)
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 void RenderingDevice::setBrightness(float fGamma)
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 void RenderingDevice::setContrast(float fGamma)
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 void RenderingDevice::updateGamma()
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 void RenderingDevice::OnDeviceDestroy(BOOL bKeepTextures)
@@ -49,22 +45,36 @@ void RenderingDevice::Reset(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWidt
 
 void RenderingDevice::SetupStates()
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 void RenderingDevice::OnDeviceCreate(LPCSTR shName)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	DebugBreak();
 }
 
 void RenderingDevice::Create(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWidth_2, float& fHeight_2, bool)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	//!
+	// Declare function pointer
+	Diligent::GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = Diligent::LoadGraphicsEngineOpenGL();
+
+	Diligent::SwapChainDesc SCDesc;
+	SCDesc.BufferCount = 1;
+
+	auto* f = GetEngineFactoryOpenGL();
+	
+	Diligent::EngineGLCreateInfo EngineCI;
+	EngineCI.Window.hWnd = hWnd;
+
+	Diligent::IRenderDevice* m_pDevice;
+	Diligent::IDeviceContext* m_pImmediateContext;
+	Diligent::ISwapChain* m_pSwapChain;
+
+	f->CreateDeviceAndSwapChainGL(EngineCI, &m_pDevice, &m_pImmediateContext, SCDesc, &m_pSwapChain);
 }
 
 void RenderingDevice::SetupGPU(BOOL bForceGPU_SW, BOOL bForceGPU_NonPure, BOOL bForceGPU_REF)
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 void RenderingDevice::overdrawBegin()
@@ -89,7 +99,6 @@ void RenderingDevice::ResourcesDeferredUpload()
 
 void RenderingDevice::ResourcesGetMemoryUsage(u32& m_base, u32& c_base, u32& m_lmaps, u32& c_lmaps)
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 void RenderingDevice::ResourcesDestroyNecessaryTextures()
@@ -119,7 +128,7 @@ IRenderDeviceRender::DeviceState RenderingDevice::GetDeviceState()
 
 BOOL RenderingDevice::GetForceGPU_REF()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return FALSE;
 }
 
 u32 RenderingDevice::GetCacheStatPolys()

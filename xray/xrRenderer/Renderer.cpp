@@ -277,7 +277,7 @@ void Renderer::rmNormal()
 
 u32 Renderer::memory_usage()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return u32(-1);
 }
 
 void Renderer::ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer)

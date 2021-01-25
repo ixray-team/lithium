@@ -23,6 +23,21 @@
     <ClInclude Include="RenderingDevice.h">
       <Filter>Device</Filter>
     </ClInclude>
+    <ClInclude Include="UIShader.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="StatsRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvironmentRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="WallmarkArray.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererBootstrap.cpp">
@@ -47,6 +62,21 @@
       <Filter>Device</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="UIShader.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="StatsRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvironmentRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="WallmarkArray.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Loader">
@@ -66,6 +96,9 @@
     </Filter>
     <Filter Include="Device">
       <UniqueIdentifier>{a09d8d59-5333-428b-9624-7b18bb5232f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FactoryImplementation">
+      <UniqueIdentifier>{c263ba62-2201-48d1-881e-7c4df283b731}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

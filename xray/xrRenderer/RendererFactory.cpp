@@ -2,7 +2,13 @@
 #include "RendererFactory.h"
 
 #include <stdexcept>
+
 #include "RenderingDevice.h"
+#include "UIShader.h"
+#include "StatsRenderer.h"
+#include "ApplicationRenderer.h"
+#include "EnvironmentRenderer.h"
+#include "WallmarkArray.h"
 
 IRenderFactory* RendererFactory::_instance;
 
@@ -28,7 +34,7 @@ void RendererFactory::DestroyUISequenceVideoItem(IUISequenceVideoItem* pObject)
 
 IUIShader* RendererFactory::CreateUIShader()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new UIShader();
 }
 
 void RendererFactory::DestroyUIShader(IUIShader* pObject)
@@ -78,7 +84,7 @@ IObjectSpaceRender* RendererFactory::CreateObjectSpaceRender()
 
 IApplicationRender* RendererFactory::CreateApplicationRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new ApplicationRenderer();
 }
 
 void RendererFactory::DestroyApplicationRender(IApplicationRender* pObject)
@@ -88,7 +94,7 @@ void RendererFactory::DestroyApplicationRender(IApplicationRender* pObject)
 
 IWallMarkArray* RendererFactory::CreateWallMarkArray()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new WallmarkArray();
 }
 
 void RendererFactory::DestroyWallMarkArray(IWallMarkArray* pObject)
@@ -103,7 +109,7 @@ void RendererFactory::DestroyStatsRender(IStatsRender* pObject)
 
 IStatsRender* RendererFactory::CreateStatsRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new StatsRenderer();
 }
 
 void RendererFactory::DestroyEnvironmentRender(IEnvironmentRender* pObject)
@@ -113,7 +119,7 @@ void RendererFactory::DestroyEnvironmentRender(IEnvironmentRender* pObject)
 
 IEnvironmentRender* RendererFactory::CreateEnvironmentRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new EnvironmentRenderer();
 }
 
 IEnvDescriptorMixerRender* RendererFactory::CreateEnvDescriptorMixerRender()
