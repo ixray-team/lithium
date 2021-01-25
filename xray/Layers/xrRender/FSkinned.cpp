@@ -17,6 +17,9 @@
 #include "../xrRenderDX10/dx10BufferUtils.h"
 
 #include "../../xrEngine/EnnumerateVertices.h"
+
+#include <onyx/crc.h>
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -420,7 +423,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				u32 size				= V.vCount*sizeof(vertBoned1W);
-				u32 crc					= crc32( _verts_, size);
+				unsigned int crc = crc::crcFast((unsigned char*)_verts_, size);
 				Vertices1W.create		( crc, V.vCount, (vertBoned1W*)_verts_);
 			}
 
@@ -461,7 +464,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				u32 size				= V.vCount*sizeof(vertBoned2W);
-				u32 crc					= crc32( _verts_, size);
+				unsigned int crc = crc::crcFast((unsigned char*)_verts_, size);
 				Vertices2W.create		( crc, V.vCount, (vertBoned2W*)_verts_);
 			}
 
@@ -502,7 +505,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				u32 size				= V.vCount*sizeof(vertBoned3W);
-				u32 crc					= crc32( _verts_, size);
+				unsigned int crc = crc::crcFast((unsigned char*)_verts_, size);
 				Vertices3W.create		( crc, V.vCount, (vertBoned3W*)_verts_);
 			}
 
@@ -546,7 +549,7 @@ void CSkeletonX_ext::_Load_hw	(Fvisual& V, void *	_verts_)
 		{
 			{	//	Back up vertex data since we can't read vertex buffer in DX10
 				u32 size				= V.vCount*sizeof(vertBoned4W);
-				u32 crc					= crc32( _verts_, size);
+				unsigned int crc = crc::crcFast((unsigned char*)_verts_, size);
 				Vertices4W.create		( crc, V.vCount, (vertBoned4W*)_verts_);
 			}
 

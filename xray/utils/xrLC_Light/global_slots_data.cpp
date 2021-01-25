@@ -3,6 +3,8 @@
 #include "global_slots_data.h"
 #include "serialize.h"
 
+#include <onyx/crc.h>
+
 void	global_slots_data::	Load			( )
 {
 	// Load .details
@@ -12,7 +14,7 @@ void	global_slots_data::	Load			( )
 	IReader*	R		= FS.r_open	( "$level$", "build.details" );
 	R->r_chunk			( 0, &dtH );
 	R->seek				( 0 );
-	u32 check_sum		= crc32( R-> pointer(), R->length());
+	unsigned int check_sum = crc::crcFast((unsigned char*)R-> pointer(), R->length());
 
 	recalculation_data.load( check_sum );
 	if( !recalculation_data.recalculating() )

@@ -24,6 +24,7 @@
 #endif
 //#include "../../../Layers/xrRender/SkeletonAnimated.h"
 
+#include <onyx/crc.h>
 
 ECORE_API BOOL g_force16BitTransformQuant = FALSE;
 ECORE_API float g_EpsSkelPositionDelta = EPS_L;
@@ -1120,7 +1121,7 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
             F.w_u8	(u8((t_present?flTKeyPresent:0)|(r_present?0:flRKeyAbsent)|(bTransform16Bit?flTKey16IsBit:0)));
             if (r_present)
             {	
-                F.w_u32	(crc32(BM._keysQR,dwLen*sizeof(CKeyQR)));
+                F.w_u32(crc::crcFast((unsigned char*)BM._keysQR, dwLen * sizeof(CKeyQR)));
                 F.w		(BM._keysQR,dwLen*sizeof(CKeyQR));
             }else
             {
@@ -1130,11 +1131,11 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
             {	
             	if(bTransform16Bit)
                 {
-                    F.w_u32(crc32(BM._keysQT16,u32(dwLen*sizeof(CKeyQT16))));
+                    F.w_u32(crc::crcFast((unsigned char*)BM._keysQT16, u32(dwLen * sizeof(CKeyQT16))));
                     F.w	(BM._keysQT16,dwLen*sizeof(CKeyQT16));
                 }else
                 {
-                    F.w_u32(crc32(BM._keysQT8,u32(dwLen*sizeof(CKeyQT8))));
+                    F.w_u32(crc::crcFast((unsigned char*)BM._keysQT8, u32(dwLen * sizeof(CKeyQT8))));
                     F.w	(BM._keysQT8,dwLen*sizeof(CKeyQT8));
                 }
 	            F.w_fvector3		(St);

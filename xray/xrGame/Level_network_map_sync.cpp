@@ -6,6 +6,8 @@
 #include "string_table.h"
 #include "../xrEngine/xr_ioconsole.h"
 
+#include <onyx/crc.h>
+
 static const u32 r_buffer_size = 131072;	//128 Kb
 void CLevel::CalculateLevelCrc32()
 {
@@ -23,7 +25,7 @@ void CLevel::CalculateLevelCrc32()
 			to_read = r_buffer_size;
 		}
 		geom->r(read_buffer, to_read);
-		map_data.m_level_geom_crc32 ^= crc32(read_buffer, to_read);
+		map_data.m_level_geom_crc32 ^= crc::crcFast((unsigned char*)read_buffer, to_read);
 		remaind = geom->elapsed();
 	}
 	FS.r_close					(geom);
