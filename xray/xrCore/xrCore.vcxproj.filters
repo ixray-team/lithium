@@ -234,9 +234,6 @@
     <ClCompile Include="blackbox\TLHELPProcessInfo.cpp">
       <Filter>Debug core\BlackBox</Filter>
     </ClCompile>
-    <ClCompile Include="crc32.cpp">
-      <Filter>shared memory/string library</Filter>
-    </ClCompile>
     <ClCompile Include="xr_shared.cpp">
       <Filter>shared memory/string library</Filter>
     </ClCompile>
