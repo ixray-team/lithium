@@ -7,7 +7,10 @@ bool CRenderDevice::on_message	(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		case WM_SIZE: {
 			u32 width = LOWORD(lParam);
 			u32 height = HIWORD(lParam);
-			pInput->OnWindowResize(width, height);
+			if (pInput)
+			{
+				pInput->OnWindowResize(width, height);
+			}
 			return true;
 		}
 		case WM_SYSKEYDOWN : {

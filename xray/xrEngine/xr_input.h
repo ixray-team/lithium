@@ -8,13 +8,12 @@ namespace gainput
 	class InputMap;
 	class InputDeviceKeyboard;
 	class InputDeviceMouse;
-	class DeviceButtonSpec;
+	class InputDevicePad;
 };
 
 extern ENGINE_API class CInput* pInput;
 
 #include <vector>
-
 
 class ENGINE_API CInput :
 	public pureFrame,
@@ -55,6 +54,9 @@ public:
 #endif
 
 private:
+
+	void UpdateGamepad();
+
 	unsigned int keyboardId;
 	unsigned int mouseId;
 	unsigned int gamepadId;
@@ -63,6 +65,7 @@ private:
 
 	gainput::InputDeviceKeyboard* keyboard;
 	gainput::InputDeviceMouse* mouse; 
+	gainput::InputDevicePad* gamepad;
 
 	std::vector<class IInputReceiver*> receivers;
 };
