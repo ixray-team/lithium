@@ -37,6 +37,8 @@ ENGINE_API BOOL g_bRendering = FALSE;
 BOOL		g_bLoaded = FALSE;
 ref_light	precache_light = 0;
 
+#include "xr_input.h"
+
 BOOL CRenderDevice::Begin	()
 {
 #ifndef DEDICATED_SERVER
@@ -375,6 +377,7 @@ void CRenderDevice::message_loop()
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage	(&msg);
+			pInput->HandleMessage(msg);
 			continue;
 		}
 

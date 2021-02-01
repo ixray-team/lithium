@@ -1,3 +1,4 @@
+/*
 #include "stdafx.h"
 #pragma hdrstop
 
@@ -124,7 +125,7 @@ HRESULT CInput::CreateInputDevice( LPDIRECTINPUTDEVICE8* device, GUID guidDevice
 {
 	// Obtain an interface to the input device
 //.	CHK_DX( pDI->CreateDeviceEx( guidDevice, IID_IDirectInputDevice8, (void**)device, NULL ) );
-	CHK_DX( pDI->CreateDevice( guidDevice, /*IID_IDirectInputDevice8,*/ device, NULL ) );
+	CHK_DX( pDI->CreateDevice( guidDevice, IID_IDirectInputDevice8,/ device, NULL ) );
 
 	// Set the device data format. Note: a data format specifies which
 	// controls on a device we are interested in, and how they should be
@@ -259,7 +260,7 @@ void CInput::KeyUpdate	( )
 	if(b_alt_tab)
 		SendMessage(Device.m_hWnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 #endif
-/*
+
 #ifndef _EDITOR
 //update xinput if exist
     for( DWORD iUserIndex=0; iUserIndex<DXUT_MAX_CONTROLLERS; iUserIndex++ )
@@ -294,7 +295,7 @@ void CInput::KeyUpdate	( )
 	}
 //xinput
 #endif
-*/
+/
 }
 bool CInput::get_dik_name(int dik, LPSTR dest_str, int dest_sz)
 {
@@ -579,3 +580,4 @@ void  CInput::feedback(u16 s1, u16 s2, float time)
 //.	set_vibration (s1, s2);
 #endif
 }
+*/

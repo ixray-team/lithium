@@ -319,7 +319,7 @@
       <Culture>0x0422</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>onyx.lib;vfw32.lib;Winmm.lib;Shlwapi.lib;D3dx9.lib;Dinput8.lib;dxguid.lib;lib_ogg.lib;lib_theora.lib;oalib.lib;lualib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>onyx.lib;vfw32.lib;Winmm.lib;Shlwapi.lib;D3dx9.lib;Dinput8.lib;dxguid.lib;lib_ogg.lib;lib_theora.lib;oalib.lib;lualib.lib;gainput.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmtd;libc;libcd;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <MapFileName>
       </MapFileName>
@@ -875,6 +875,7 @@
     <ClInclude Include="IGame_ObjectPool.h" />
     <ClInclude Include="IGame_Persistent.h" />
     <ClInclude Include="IInputReceiver.h" />
+    <ClInclude Include="xr_input.h" />
     <ClInclude Include="IObjectPhysicsCollision.h" />
     <ClInclude Include="IPHdebug.h" />
     <ClInclude Include="IPhysicsGeometry.h" />
@@ -925,7 +926,9 @@
     <ClInclude Include="xrTheora_Surface_mmx.h" />
     <ClInclude Include="xr_collide_form.h" />
     <ClInclude Include="xr_efflensflare.h" />
-    <ClInclude Include="xr_input.h" />
+    <ClInclude Include="xr_input_.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="xr_input_xinput.h" />
     <ClInclude Include="XR_IOConsole.h" />
     <ClInclude Include="xr_ioc_cmd.h" />
@@ -1057,6 +1060,7 @@
       <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">false</ShowIncludes>
     </ClCompile>
     <ClCompile Include="IInputReceiver.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="interp.cpp" />
     <ClCompile Include="IRenderable.cpp" />
     <ClCompile Include="ISheduled.cpp" />
@@ -1105,7 +1109,9 @@
     <ClCompile Include="xrTheora_Surface_mmx.cpp" />
     <ClCompile Include="xr_collide_form.cpp" />
     <ClCompile Include="xr_efflensflare.cpp" />
-    <ClCompile Include="Xr_input.cpp" />
+    <ClCompile Include="Xr_input.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="xr_input_xinput.cpp" />
     <ClCompile Include="XR_IOConsole.cpp" />
     <ClCompile Include="XR_IOConsole_callback.cpp" />

@@ -288,9 +288,6 @@
     <ClInclude Include="IInputReceiver.h">
       <Filter>Interfaces\Input</Filter>
     </ClInclude>
-    <ClInclude Include="xr_input.h">
-      <Filter>Interfaces\Input</Filter>
-    </ClInclude>
     <ClInclude Include="xr_input_xinput.h">
       <Filter>Interfaces\Input</Filter>
     </ClInclude>
@@ -622,6 +619,12 @@
       <Filter>OpenAutomate</Filter>
     </ClInclude>
     <ClInclude Include="DamnKeysFilter.h">
+      <Filter>Interfaces\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="xr_input_.h">
+      <Filter>Interfaces\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="xr_input.h">
       <Filter>Interfaces\Input</Filter>
     </ClInclude>
   </ItemGroup>
@@ -969,6 +972,9 @@
       <Filter>OpenAutomate</Filter>
     </ClCompile>
     <ClCompile Include="DamnKeysFilter.cpp">
+      <Filter>Interfaces\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
       <Filter>Interfaces\Input</Filter>
     </ClCompile>
   </ItemGroup>
