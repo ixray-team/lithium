@@ -18,6 +18,15 @@
 #include "../xrCore/_vector2.h"
 #include "../xrCore/_rect.h"
 
+#include "../xrCDB/xrCDB.h"
+
+#include "../xrSound/Sound.h"
+
+#include "../xrEngine/EventAPI.h"
+#include "../xrEngine/pure.h"
+#include "../xrEngine/device.h"
+
+
 #define LITHIUM_EXTERNAL_RENDERER
 
 #ifdef LITHIUM_EXTERNAL_RENDERER

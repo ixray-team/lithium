@@ -4,25 +4,28 @@
 
 void WallmarkArray::Copy(IWallMarkArray& _in)
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 void WallmarkArray::AppendMark(LPCSTR s_textures)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	// create shader "effects''wallmark" + texture from s_textures
+	// push to storage
 }
 
 void WallmarkArray::clear()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	// clear storage
 }
 
 bool WallmarkArray::empty()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return true;
 }
 
 wm_shader WallmarkArray::GenerateWallmark()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	wm_shader result;
+	// return random wallmark (collide mark) from storage
+	
+	return result;
 }

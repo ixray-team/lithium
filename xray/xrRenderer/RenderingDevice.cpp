@@ -49,7 +49,7 @@ void RenderingDevice::SetupStates()
 
 void RenderingDevice::OnDeviceCreate(LPCSTR shName)
 {
-	DebugBreak();
+	Device.Statistic->OnDeviceCreate();
 }
 
 void RenderingDevice::Create(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWidth_2, float& fHeight_2, bool)
@@ -58,19 +58,25 @@ void RenderingDevice::Create(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWid
 	// Declare function pointer
 	Diligent::GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = Diligent::LoadGraphicsEngineOpenGL();
 
+	RECT rc;
+	GetWindowRect(hWnd, &rc);
+	dwWidth = rc.right - rc.left;
+	dwHeight = rc.bottom - rc.top;
+
 	Diligent::SwapChainDesc SCDesc;
 	SCDesc.BufferCount = 1;
+	SCDesc.Width = dwWidth;
+	SCDesc.Height = dwHeight;
+
+	fWidth_2 = dwWidth / 2;
+	fHeight_2 = dwHeight / 2;
 
 	auto* f = GetEngineFactoryOpenGL();
 	
-	Diligent::EngineGLCreateInfo EngineCI;
-	EngineCI.Window.hWnd = hWnd;
+	Diligent::EngineGLCreateInfo dilEngineInfo;
+	dilEngineInfo.Window.hWnd = hWnd;
 
-	Diligent::IRenderDevice* m_pDevice;
-	Diligent::IDeviceContext* m_pImmediateContext;
-	Diligent::ISwapChain* m_pSwapChain;
-
-	f->CreateDeviceAndSwapChainGL(EngineCI, &m_pDevice, &m_pImmediateContext, SCDesc, &m_pSwapChain);
+	f->CreateDeviceAndSwapChainGL(dilEngineInfo, &dilDevice, &dilImmediateContext, SCDesc, &dilSwapChain);
 }
 
 void RenderingDevice::SetupGPU(BOOL bForceGPU_SW, BOOL bForceGPU_NonPure, BOOL bForceGPU_REF)

@@ -14,8 +14,8 @@ extern ENGINE_API BOOL g_bRendering;
 ENGINE_API Fvector2		g_current_font_scale={1.0f,1.0f};
 
 #include "../Include/xrAPI/xrAPI.h"
-#include "../Include/xrRender/RenderFactory.h"
-#include "../Include/xrRender/FontRender.h"
+#include "../xrRenderer/Include/RenderFactory.h"
+#include "../xrRenderer/Include/FontRender.h"
 
 CGameFont::CGameFont(LPCSTR section, u32 flags)
 {
@@ -62,7 +62,7 @@ void CGameFont::Initialize		(LPCSTR cShader, LPCSTR cTextureName)
 		xr_strcpy				(cTexture, sizeof(cTexture), cTextureName);
 
 	uFlags						&=~fsValid;
-	vTS.set						(1.f,1.f); // обязательно !!!
+	vTS.set						(1.f,1.f); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ !!!
 
 	eCurrentAlignment			= alLeft;
 	vInterval.set				(1.f,1.f);

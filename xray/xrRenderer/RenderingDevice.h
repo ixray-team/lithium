@@ -7,6 +7,11 @@
 
 class RenderingDevice : public IRenderDeviceRender
 {
+private:
+	Diligent::IRenderDevice* dilDevice;
+	Diligent::IDeviceContext* dilImmediateContext;
+	Diligent::ISwapChain* dilSwapChain;
+
 public:
 	void Copy(IRenderDeviceRender& _in) override;
 	void setGamma(float fGamma) override;
