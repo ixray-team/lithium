@@ -346,3 +346,4 @@ MigrationBackup/
 # Other targets
 intermediate/
 opt/
+SDK/libraries/*

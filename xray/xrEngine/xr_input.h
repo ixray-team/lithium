@@ -1,5 +1,7 @@
 #pragma once
+#include <vector>
 
+#pragma comment(lib, "Xinput9_1_0.lib")
 #include <dinput.h>
 
 namespace gainput
@@ -13,7 +15,6 @@ namespace gainput
 
 extern ENGINE_API class CInput* pInput;
 
-#include <vector>
 
 class ENGINE_API CInput :
 	public pureFrame,
@@ -25,15 +26,23 @@ public:
 	enum
 	{
 		COUNT_KB_BUTTONS = 256,
-		COUNT_MOUSE_BUTTONS = 8
+		COUNT_MOUSE_BUTTONS = 8		// 20 on Thrust GXT144 so not valid!
+									// same would be for any A4 or other gamer mouse
+									// see new buttons linsting method in .ctor
 	};
 
-	CInput(bool bCaptureInput);
-	virtual ~CInput();
-	void OnWindowResize(int width, int height);
+private:
+	inline bool AnyReceiver();
+
+public:
 	virtual void OnFrame();
 	virtual void OnAppActivate();
 	virtual void OnAppDeactivate();
+
+public:
+	CInput(bool bCaptureInput);
+	virtual ~CInput();
+	void OnWindowResize(int width, int height);
 
 	class IInputReceiver* CurrentIR();
 	void iCapture(class IInputReceiver* ir);
@@ -54,18 +63,22 @@ public:
 #endif
 
 private:
-
 	void UpdateGamepad();
 
-	unsigned int keyboardId;
-	unsigned int mouseId;
-	unsigned int gamepadId;
-	gainput::InputManager* inputManager;
-	gainput::InputMap* inputMap;
+	gainput::InputManager* inputManager = nullptr;
+	gainput::InputMap* inputMap = nullptr;
 
-	gainput::InputDeviceKeyboard* keyboard;
-	gainput::InputDeviceMouse* mouse; 
-	gainput::InputDevicePad* gamepad;
+	unsigned int keyboardId = 0;
+	gainput::InputDeviceKeyboard* keyboard = nullptr;
+
+	unsigned int mouseId = 0;
+	gainput::InputDeviceMouse* mouse = nullptr;
+	std::vector<u8> mouseButtons;
+	Ivector2 mouseDelta;
+
+	unsigned int gamepadId = 0;
+	gainput::InputDevicePad* gamepad = nullptr;
+
 
 	std::vector<class IInputReceiver*> receivers;
 };

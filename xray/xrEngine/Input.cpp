@@ -32,22 +32,43 @@ enum
 	MouseWheel
 };
 
+inline bool CInput::AnyReceiver()
+{
+	return !receivers.empty();
+}
+
 CInput::CInput(bool bCaptureInput) : receivers()
 {
-	inputManager = new gainput::InputManager(false);
-	keyboardId = inputManager->CreateDevice<gainput::InputDeviceKeyboard>();
-	mouseId = inputManager->CreateDevice<gainput::InputDeviceMouse>();
-	gamepadId = inputManager->CreateDevice<gainput::InputDevicePad>();
+	mouseDelta.set(0, 0);
 
-	keyboard = (gainput::InputDeviceKeyboard*) inputManager->GetDevice(keyboardId);
-	mouse = (gainput::InputDeviceMouse*) inputManager->GetDevice(mouseId);
-	gamepad = (gainput::InputDevicePad*) inputManager->GetDevice(gamepadId);
+	inputManager = new gainput::InputManager(false);
+
+	keyboard = inputManager->CreateAndGetDevice<gainput::InputDeviceKeyboard>();
+	mouse = inputManager->CreateAndGetDevice<gainput::InputDeviceMouse>();
+	gamepad = inputManager->CreateAndGetDevice<gainput::InputDevicePad>();
+
+	//keyboardId = keyboard->GetDeviceId();
+	const gainput::DeviceId mouseId = mouse->GetDeviceId();
+	//gamepadId = gamepad->GetDeviceId();
 
 	inputMap = new gainput::InputMap(*inputManager);
 	inputMap->MapFloat(MouseX, mouseId, gainput::MouseAxisX);
 	inputMap->MapFloat(MouseY, mouseId, gainput::MouseAxisY);
 	inputMap->MapFloat(MouseWheel, mouseId, gainput::MouseButtonWheelDown);
 
+	const gainput::InputState* mouseCheckState = mouse->GetInputState();
+	const u8 mouseInputsCount = (u8)mouseCheckState->GetButtonCount();
+
+	for (u8 i = 0; i < mouseInputsCount; i++)
+	{
+		if (!mouse->IsValidButtonId(i) || mouse->GetButtonType(i) != gainput::BT_BOOL)
+			continue;
+
+		mouseButtons.push_back(i);
+	}
+
+	//#OPTIMIZE @Scht: remove all unbound buttons 
+	//	get device input on binding instead of OnFrame
 
 #ifdef ENGINE_BUILD
 	Device.seqAppActivate.Add(this);
@@ -89,6 +110,8 @@ int CInput::iGetAsyncKeyState(int dik)
 
 void CInput::iGetLastMouseDelta(Ivector2& p)
 {
+	// @ Does this really used?
+	p.set((int)Device.dwWidth*mouseDelta.x, Device.dwHeight*mouseDelta.y);
 }
 
 int CInput::iGetAsyncBtnState(int btn)
@@ -105,68 +128,123 @@ void CInput::OnFrame()
 {
 	inputManager->Update(Device.dwTimeDelta);
 
-	if (receivers.empty())
-	{
-		return;
-	}
-
 	if (gamepad->IsAvailable())
 	{
 		UpdateGamepad();
-		//return;
 	}
+
+	// @ Scht. -> Anton: 
+	// gamepad update is mandatory 'cause we can vibrate for some time at this point
+	// and we may want to disable vibration in time even if there is no receiver
+
+	if (!AnyReceiver())	return;
 
 	gainput::InputState* mouse_state = mouse->GetInputState();
 	gainput::InputState* prev_state = mouse->GetPreviousInputState();
 
-	for (int i = 0; i <= mouse_state->GetButtonCount(); i++)
+	for (const auto& idx : mouseButtons)
 	{
-		if (mouse_state->GetBool(i))
+		if (!AnyReceiver())	return;
+
+		bool prevState = prev_state->GetBool(idx);
+		bool currState = mouse_state->GetBool(idx);
+
+		const int translatedButtonId = idx < 2 ? idx : idx + 100;
+
+		// holding: was true and now true
+		if (prevState && currState)
 		{
-			if (prev_state->GetBool(i))
-			{
-				receivers.back()->IR_OnMouseHold(i < 2 ? i : i + 100);
-			}
-			else
-			{
-				receivers.back()->IR_OnMousePress(i < 2 ? i : i + 100);
-			}
+			receivers.back()->IR_OnMouseHold(translatedButtonId);
+			continue;
 		}
-		else
+
+		// press: was false and now true
+		if (!prevState && currState)
 		{
-			receivers.back()->IR_OnMouseRelease(i < 2 ? i : i + 100);
+			receivers.back()->IR_OnMousePress(translatedButtonId);
+			continue;
+		}
+
+		// released: was true and now false
+		if (prevState && !currState)
+		{
+			receivers.back()->IR_OnMouseRelease(translatedButtonId);
+			continue;
 		}
 	}
 
-	if (inputMap->GetFloatDelta(MouseX) != 0.0f && inputMap->GetFloatDelta(MouseY))
+	constexpr float eps = std::numeric_limits<float>::epsilon();
+
+	static float pdX = 0;
+	static float pdY = 0;
+
+	// WHAT THE FUCK?!
+	// It seems like UI just ignores those factors but scene doesn't
+	// 
+	const float dX = Device.dwWidth * inputMap->GetFloatDelta(MouseX);
+	const float dY = Device.dwHeight * inputMap->GetFloatDelta(MouseY);
+	// <<<
+
+	mouseDelta.set(dX, dY);
+
+	// here mouse click can trigger some receivers unreg so check vector again
+	if (!AnyReceiver())	return;
+
+	if (abs(dX) > eps || abs(dY) > eps)
 	{
-		receivers.back()->IR_OnMouseMove(inputMap->GetFloatDelta(MouseX), inputMap->GetFloatDelta(MouseY));
+		receivers.back()->IR_OnMouseMove(dX, dY);
+	} 
+	else if (pdX != dX || pdY != dY)
+	{
+		// no move: deltas are 0 but we were moving the mouse before
+		receivers.back()->IR_OnMouseStop(0,0);
 	}
+
+	pdX = dX;
+	pdY = dY;
 	
-	//IR_OnMouseStop???
+	if (!AnyReceiver())	return;
 
-	if (inputMap->GetFloatDelta(MouseWheel) != 0.0f)
+	const float dWheel = inputMap->GetFloatDelta(MouseWheel);
+	if (abs(dWheel) > eps)
 	{
-		receivers.back()->IR_OnMouseWheel(inputMap->GetFloatDelta(MouseWheel));
+		receivers.back()->IR_OnMouseWheel(dWheel);
 	}
 
-	auto state = keyboard->GetInputState();
-	auto old_state = keyboard->GetPreviousInputState();
+	if (!AnyReceiver())	return;
 
-	for (int i = 0; i <= state->GetButtonCount(); i++)
+	gainput::InputState* state = keyboard->GetInputState();
+	gainput::InputState* old_state = keyboard->GetPreviousInputState();
+
+	const u32 buttonsCnt = state->GetButtonCount();
+	for (int i = 0; i < buttonsCnt; i++)
 	{
-		if (state->GetBool(i))
+		if (!AnyReceiver()) return;
+
+		const bool currState = state->GetBool(i);
+		const bool prevState = old_state->GetBool(i);
+
+		const int translatedButtonIdx = i + 1;
+
+		// holding: was true and now true
+		if (prevState && currState)
 		{
-			if (old_state->GetBool(i))
-			{
-				receivers.back()->IR_OnKeyboardHold(i + 1);
-				continue;
-			}
-			receivers.back()->IR_OnKeyboardPress(i + 1);
+			receivers.back()->IR_OnKeyboardHold(translatedButtonIdx);
+			continue;
 		}
-		else if(old_state->GetBool(i))
+
+		// press: was false and now true
+		if (!prevState && currState)
 		{
-			receivers.back()->IR_OnKeyboardRelease(i + 1);
+			receivers.back()->IR_OnKeyboardPress(translatedButtonIdx);
+			continue;
+		}
+
+		// released: was true and now false
+		if (prevState && !currState)
+		{
+			receivers.back()->IR_OnKeyboardRelease(translatedButtonIdx);
+			continue;
 		}
 	}
 }
@@ -228,16 +306,23 @@ void CInput::iCapture(IInputReceiver* ir)
 		receivers.back()->IR_OnDeactivate();
 	}
 	receivers.push_back(ir);
-	receivers.back()->IR_OnActivate();
+	ir->IR_OnActivate();
 }
 
 void CInput::iRelease(IInputReceiver* ir)
 {
+	if (!AnyReceiver())
+	{
+		Msg("! No input receivers present but IR->Release() called!");
+		return;
+	}
+
 	if (ir == receivers.back())
 	{
-		receivers.back()->IR_OnDeactivate();
+		ir->IR_OnDeactivate();
 		receivers.pop_back();
-		if (!receivers.empty())
+
+		if (AnyReceiver())
 			receivers.back()->IR_OnActivate();
 	}
 	else
@@ -249,6 +334,9 @@ void CInput::iRelease(IInputReceiver* ir)
 #if defined(_WIN32)
 void CInput::HandleMessage(tagMSG msg)
 {
+	if (inputManager == nullptr || inputMap == nullptr)
+		return;
+
 	inputManager->HandleMessage(msg);
 }
 #endif
@@ -261,6 +349,8 @@ CInput::~CInput()
 
 void  CInput::feedback(u16 s1, u16 s2, float time)
 {
+	if (!gamepad->Vibrate(s1, s2))
+		return;
+
 	vibrateTime = Device.fTimeGlobal + time;
-	gamepad->Vibrate(s1, s2);
 }
