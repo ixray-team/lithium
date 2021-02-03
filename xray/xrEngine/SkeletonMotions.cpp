@@ -8,6 +8,8 @@
 #include	"motion.h"
 #include	"..\Include\xrRender\Kinematics.h"
 
+#include <onyx/crc.h>
+
 motions_container*	g_pMotionsContainer	= 0;
 
 u16 CPartition::part_id(const shared_str& name) const
@@ -197,7 +199,7 @@ BOOL motions_value::load		(LPCSTR N, IReader *data, vecBones* bones)
             
             if (M.test_flag(flRKeyAbsent))	{
                 CKeyQR* r 		= (CKeyQR*)MS->pointer();
-				u32 crc_q		= crc32(r,sizeof(CKeyQR));
+				unsigned int crc_q = crc::crcFast((unsigned char*)r, sizeof(CKeyQR));
 				M._keysR.create	(crc_q,1,r);
                 MS->advance		(1 * sizeof(CKeyQR));
             }else{

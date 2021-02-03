@@ -63,7 +63,7 @@ namespace crc
 #error "One of CRC_CCITT, CRC16, or CRC32 must be #define'd."
 
 #endif
-
+	extern bool crcInitOk;
 	void  crcInit(void);
 	crc   crcSlow(unsigned char const message[], int nBytes);
 	crc   crcFast(unsigned char const message[], int nBytes);

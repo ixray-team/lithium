@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "xrCompress.h"
 
+#include <onyx/crc.h>
+
 //typedef void DUMMY_STUFF (const void*,const u32&,void*);
 //XRCORE_API DUMMY_STUFF	*g_temporary_stuff;
 //XRCORE_API DUMMY_STUFF	*g_dummy_stuff;
@@ -206,7 +208,7 @@ void xrCompressor::CompressOne(LPCSTR path)
 	}
 
 	bytesSRC						+=	src->length	();
-	u32			c_crc32				=	crc32		(src->pointer(),src->length());
+	unsigned int c_crc32 = crc::crcFast((unsigned char*)src->pointer(), src->length());
 	u32			c_ptr				=	0;
 	u32			c_size_real			=	0;
 	u32			c_size_compressed	=	0;

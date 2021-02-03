@@ -33,6 +33,8 @@
 #include "../monster_velocity_space.h"
 #include "../anti_aim_ability.h"
 
+#include <onyx/crc.h>
+
 namespace detail
 {
 
@@ -467,7 +469,7 @@ void CBaseMonster::settings_load(LPCSTR section)
 
 	settings_read			(pSettings, section, data);
 
-	u32 crc					= crc32(&data,sizeof(SMonsterSettings));
+	unsigned int crc = crc::crcFast((unsigned char*)&data, sizeof(SMonsterSettings));
 	m_base_settings.create	(crc,1,&data);
 }
 
@@ -481,7 +483,7 @@ void CBaseMonster::settings_overrides()
 		settings_read			(spawn_ini(),"settings_overrides", (*data));
 	}
 
-	u32 crc						= crc32(data,sizeof(SMonsterSettings));
+	unsigned int crc = crc::crcFast((unsigned char*)data, sizeof(SMonsterSettings));
 	m_current_settings.create	(crc,1,data);
 }
 

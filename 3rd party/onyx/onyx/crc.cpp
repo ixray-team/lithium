@@ -41,6 +41,7 @@
 
 namespace crc
 {
+	bool crcInitOk = false;
 
 	/*********************************************************************
 	 *
@@ -93,6 +94,9 @@ namespace crc
 	 *********************************************************************/
 	crc crcSlow(unsigned char const message[], int nBytes)
 	{
+		if (!crcInitOk)
+			crcInit();
+
 		crc            remainder = INITIAL_REMAINDER;
 		int            byte;
 		unsigned char  bit;
@@ -192,6 +196,8 @@ namespace crc
 			crcTable[dividend] = remainder;
 		}
 
+		crcInitOk = true;
+
 	}   /* crcInit() */
 
 
@@ -208,6 +214,9 @@ namespace crc
 	 *********************************************************************/
 	crc	crcFast(unsigned char const message[], int nBytes)
 	{
+		if (!crcInitOk)
+			crcInit();
+
 		crc	           remainder = INITIAL_REMAINDER;
 		unsigned char  data;
 		int            byte;
