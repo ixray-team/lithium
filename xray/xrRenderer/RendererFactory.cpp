@@ -34,12 +34,12 @@ void RendererFactory::DestroyUISequenceVideoItem(IUISequenceVideoItem* pObject)
 
 IUIShader* RendererFactory::CreateUIShader()
 {
-	return new UIShader();
+	return new UIShader(rendererDevice);
 }
 
 void RendererFactory::DestroyUIShader(IUIShader* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 void RendererFactory::DestroyStatGraphRender(IStatGraphRender* pObject)
@@ -69,7 +69,9 @@ void RendererFactory::DestroyRenderDeviceRender(IRenderDeviceRender* pObject)
 
 IRenderDeviceRender* RendererFactory::CreateRenderDeviceRender()
 {
-	return new RenderingDevice();
+	rendererDevice = new RenderingDevice();
+	return (RenderingDevice*)rendererDevice;
+	//return new RenderingDevice();
 }
 
 void RendererFactory::DestroyObjectSpaceRender(IObjectSpaceRender* pObject)

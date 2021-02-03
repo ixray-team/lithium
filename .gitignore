@@ -348,4 +348,8 @@ intermediate/
 opt/
 
 # Diligent engine
-SDK/Diligent*
+SDK/[Dd]iligent*
+
+# gainput
+3rd party/[Gg]ainput*
+SDK/libraries*

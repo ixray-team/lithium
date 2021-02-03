@@ -38,6 +38,9 @@
     <ClInclude Include="WallmarkArray.h">
       <Filter>FactoryImplementation</Filter>
     </ClInclude>
+    <ClInclude Include="RenderingDevice_apiMode.h">
+      <Filter>Device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererBootstrap.cpp">
@@ -76,6 +79,15 @@
     </ClCompile>
     <ClCompile Include="WallmarkArray.cpp">
       <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingDevice_host.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingDevice_Lifecycle.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingDevice_Utility.cpp">
+      <Filter>Device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

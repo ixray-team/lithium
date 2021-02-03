@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Include/RenderDeviceRender.h"
+#include "IDiligentRenderingHost.h"
 
-#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/EngineFactoryOpenGL.h"
-#include "DiligentCore/Graphics/GraphicsEngineOpenGL/interface/RenderDeviceGL.h"
+#include "RenderingDevice_apiMode.h"
 
-class RenderingDevice : public IRenderDeviceRender
+class RenderingDevice : public IRenderDeviceRender, 
+	public IDiligentRenderingHost
 {
 private:
 	Diligent::IRenderDevice* dilDevice;
@@ -13,10 +14,15 @@ private:
 	Diligent::ISwapChain* dilSwapChain;
 
 public:
+	Diligent::IRenderDevice* dilGetDevice() override;
+	Diligent::IDeviceContext* dilGetImmediateContext() override;
+	Diligent::ISwapChain* dilGetSwapChain() override;
+
+public:
 	void Copy(IRenderDeviceRender& _in) override;
 	void setGamma(float fGamma) override;
-	void setBrightness(float fGamma) override;
-	void setContrast(float fGamma) override;
+	void setBrightness(float fBrightness) override;
+	void setContrast(float fContrast) override;
 	void updateGamma() override;
 	void OnDeviceDestroy(BOOL bKeepTextures) override;
 	void ValidateHW() override;
@@ -45,5 +51,12 @@ public:
 	void SetCacheXform(Fmatrix& mView, Fmatrix& mProject) override;
 	void OnAssetsChanged() override;
 
+private:
+	APILayer GetPreferredApiLayer(APILayer default);
+	
+	Diligent::float4x4 GetAdjustedProjectionMatrix(float FOV, float NearPlane, float FarPlane) const;
+	Diligent::float4x4 GetSurfacePretransformMatrix(const Diligent::float3& f3CameraViewAxis) const;
+
+	void Diligent_SetupDevice(APILayer api, HWND hWnd, Diligent::SwapChainDesc scDesc);
 };
 

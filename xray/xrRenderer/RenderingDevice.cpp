@@ -11,11 +11,11 @@ void RenderingDevice::setGamma(float fGamma)
 {
 }
 
-void RenderingDevice::setBrightness(float fGamma)
+void RenderingDevice::setBrightness(float fBrightness)
 {
 }
 
-void RenderingDevice::setContrast(float fGamma)
+void RenderingDevice::setContrast(float fContrast)
 {
 }
 
@@ -49,15 +49,11 @@ void RenderingDevice::SetupStates()
 
 void RenderingDevice::OnDeviceCreate(LPCSTR shName)
 {
-	Device.Statistic->OnDeviceCreate();
+	//Device.Statistic->OnDeviceCreate();
 }
 
 void RenderingDevice::Create(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWidth_2, float& fHeight_2, bool)
 {
-	//!
-	// Declare function pointer
-	Diligent::GetEngineFactoryOpenGLType GetEngineFactoryOpenGL = Diligent::LoadGraphicsEngineOpenGL();
-
 	RECT rc;
 	GetWindowRect(hWnd, &rc);
 	dwWidth = rc.right - rc.left;
@@ -71,12 +67,8 @@ void RenderingDevice::Create(HWND hWnd, u32& dwWidth, u32& dwHeight, float& fWid
 	fWidth_2 = dwWidth / 2;
 	fHeight_2 = dwHeight / 2;
 
-	auto* f = GetEngineFactoryOpenGL();
-	
-	Diligent::EngineGLCreateInfo dilEngineInfo;
-	dilEngineInfo.Window.hWnd = hWnd;
-
-	f->CreateDeviceAndSwapChainGL(dilEngineInfo, &dilDevice, &dilImmediateContext, SCDesc, &dilSwapChain);
+	APILayer api = this->GetPreferredApiLayer(APILayer::OpenGL);
+	this->Diligent_SetupDevice(api, hWnd, SCDesc);
 }
 
 void RenderingDevice::SetupGPU(BOOL bForceGPU_SW, BOOL bForceGPU_NonPure, BOOL bForceGPU_REF)
@@ -105,6 +97,10 @@ void RenderingDevice::ResourcesDeferredUpload()
 
 void RenderingDevice::ResourcesGetMemoryUsage(u32& m_base, u32& c_base, u32& m_lmaps, u32& c_lmaps)
 {
+	m_base = 0;
+	c_base = 0;
+	m_lmaps = 0;
+	c_lmaps = 0;
 }
 
 void RenderingDevice::ResourcesDestroyNecessaryTextures()

@@ -25,7 +25,6 @@ public:
 	IStatGraphRender* CreateStatGraphRender() override;
 	void DestroyStatGraphRender(IStatGraphRender* pObject) override;
 
-
 	IConsoleRender* CreateConsoleRender() override;
 	void DestroyConsoleRender(IConsoleRender* pObject) override;
 
@@ -70,5 +69,8 @@ public:
 
 	IFontRender* CreateFontRender() override;
 	void DestroyFontRender(IFontRender* pObject) override;
+
+private:
+	class IDiligentRenderingHost* rendererDevice;
 };
 

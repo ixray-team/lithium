@@ -108,7 +108,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)3rd party\luajit\src;$(SolutionDir)3rd party\luabind\luabind;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)3rd party\luajit\src;$(SolutionDir)3rd party\luabind\luabind;$(VULKAN_SDK)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)3rd party\luajit\src;$(SolutionDir)3rd party\luabind\luabind;$(IncludePath)</IncludePath>
@@ -168,7 +169,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <DisableSpecificWarnings>4456;4457;4458;4459;4595</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4456;4457;4458;4459;4595;4995</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(SolutionDir)3rd party/onyx;$(SolutionDir)3rd party/imdexlib;$(SolutionDir)SDK/DiligentEngine/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -358,10 +359,12 @@
     <ClInclude Include="DebugRenderer.h" />
     <ClInclude Include="DrawUtilites.h" />
     <ClInclude Include="EnvironmentRenderer.h" />
+    <ClInclude Include="IDiligentRenderingHost.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererBootstrap.h" />
     <ClInclude Include="RendererFactory.h" />
     <ClInclude Include="RenderingDevice.h" />
+    <ClInclude Include="RenderingDevice_apiMode.h" />
     <ClInclude Include="StatsRenderer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="UiRenderer.h" />
@@ -377,6 +380,9 @@
     <ClCompile Include="RendererBootstrap.cpp" />
     <ClCompile Include="RendererFactory.cpp" />
     <ClCompile Include="RenderingDevice.cpp" />
+    <ClCompile Include="RenderingDevice_host.cpp" />
+    <ClCompile Include="RenderingDevice_Lifecycle.cpp" />
+    <ClCompile Include="RenderingDevice_Utility.cpp" />
     <ClCompile Include="StatsRenderer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
