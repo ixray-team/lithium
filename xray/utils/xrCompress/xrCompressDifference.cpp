@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <onyx/crc.h>
+
 #ifndef MOD_COMPRESS
 
 string_path target_folder;
@@ -49,13 +51,13 @@ struct file_comparer{
 		//compare file crc
 		if( !m_crc32 && !m_flags.test(eDontCheckCRC) ){
 			IReader* r	=	m_fs_new->r_open	("$target_folder$",m_full_name);
-			m_crc32		=	crc32		(r->pointer(),r->length());
+			m_crc32 = crc::crcFast((unsigned char*)r->pointer(), r->length());
 			m_fs_new->r_close(r);
 		};
 
 		if( !m_flags.test(eDontCheckCRC) ){
 			IReader* r_	= m_fs_old->r_open("$target_folder$",o);
-			u32 crc32_	=  crc32	(r_->pointer(),r_->length());
+			unsigned int crc32_ = crc::crcFast((unsigned char*)r_->pointer(), r_->length());
 			m_fs_old->r_close(r_);
 			if(m_crc32!=crc32_)
 				return false;

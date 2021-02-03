@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #pragma hdrstop
 
+#include <onyx/crc.h>
+
 struct	auth_options	{
 	xr_vector<shared_str>				ignore;
 	xr_vector<shared_str>				important;
@@ -38,7 +40,7 @@ void	CLocatorAPI::auth_runtime		(void*	params)
 
 	CMemoryWriter			writer;
 	pSettingsAuth->save_as	(writer);
-	m_auth_code				= crc32(writer.pointer(), writer.size());
+	m_auth_code = crc::crcFast((unsigned char*)writer.pointer(), writer.size());
 
 #ifdef DEBUG
 	if (strstr(Core.Params,"auth_debug"))
@@ -80,7 +82,7 @@ void	CLocatorAPI::auth_runtime		(void*	params)
 						do_break	= true;
 						break;
 					}
-					u32 crc			= crc32		(r->pointer(),r->length());
+					unsigned int crc = crc::crcFast((unsigned char*)r->pointer(), r->length());
 					
 #ifdef DEBUG
 					if(strstr(Core.Params,"auth_debug"))
