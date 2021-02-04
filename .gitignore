@@ -346,3 +346,7 @@ MigrationBackup/
 # Other targets
 intermediate/
 opt/
+
+# vfspp
+3rd party/vfspp/x64*
+3rd party/vfspp/Win32*

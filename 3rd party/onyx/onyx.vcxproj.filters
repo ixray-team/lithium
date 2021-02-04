@@ -11,6 +11,9 @@
     <Filter Include="crc">
       <UniqueIdentifier>{ae444ce0-62a6-4bcd-949f-ae49b33d0a29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="fs">
+      <UniqueIdentifier>{5cb1f817-4128-459d-a648-32634e4376ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -22,10 +25,19 @@
     <ClInclude Include="onyx\crc.h">
       <Filter>crc</Filter>
     </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>fs</Filter>
+    </ClInclude>
+    <ClInclude Include="IFile.h">
+      <Filter>fs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="onyx\crc.cpp">
       <Filter>crc</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>fs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
