@@ -9,6 +9,16 @@
 #include "ApplicationRenderer.h"
 #include "EnvironmentRenderer.h"
 #include "WallmarkArray.h"
+#include "../Include/xrRender/LensFlareRender.h"
+#include "../Include/xrRender/ThunderboltDescRender.h"
+#include "../Include/xrRender/UISequenceVideoItem.h"
+#include "EnvDescRenderer.h"
+#include "EnvDescMixerRenderer.h"
+#include "UISeqVideoItem.h"
+#include "RainRenderer.h"
+#include "LensFlareRenderer.h"
+#include "FontRenderer.h"
+#include "FlareRenderer.h"
 
 IRenderFactory* RendererFactory::_instance;
 
@@ -24,12 +34,13 @@ IRenderFactory* RendererFactory::Instance()
 
 IUISequenceVideoItem* RendererFactory::CreateUISequenceVideoItem()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new UISeqVideoItem(rendererDevice);
 }
 
 void RendererFactory::DestroyUISequenceVideoItem(IUISequenceVideoItem* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	pObject->ResetTexture();
+	delete pObject;
 }
 
 IUIShader* RendererFactory::CreateUIShader()
@@ -39,12 +50,13 @@ IUIShader* RendererFactory::CreateUIShader()
 
 void RendererFactory::DestroyUIShader(IUIShader* pObject)
 {
+	pObject->destroy();
 	delete pObject;
 }
 
 void RendererFactory::DestroyStatGraphRender(IStatGraphRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 IStatGraphRender* RendererFactory::CreateStatGraphRender()
@@ -59,19 +71,20 @@ IConsoleRender* RendererFactory::CreateConsoleRender()
 
 void RendererFactory::DestroyConsoleRender(IConsoleRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 void RendererFactory::DestroyRenderDeviceRender(IRenderDeviceRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	pObject->Clear();
+	pObject->DestroyHW();
+	delete pObject;
 }
 
 IRenderDeviceRender* RendererFactory::CreateRenderDeviceRender()
 {
 	rendererDevice = new RenderingDevice();
 	return (RenderingDevice*)rendererDevice;
-	//return new RenderingDevice();
 }
 
 void RendererFactory::DestroyObjectSpaceRender(IObjectSpaceRender* pObject)
@@ -86,12 +99,14 @@ IObjectSpaceRender* RendererFactory::CreateObjectSpaceRender()
 
 IApplicationRender* RendererFactory::CreateApplicationRender()
 {
-	return new ApplicationRenderer();
+	return new ApplicationRenderer(rendererDevice);
 }
 
 void RendererFactory::DestroyApplicationRender(IApplicationRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	pObject->destroy_loading_shaders();
+	pObject->KillHW();
+	delete pObject;
 }
 
 IWallMarkArray* RendererFactory::CreateWallMarkArray()
@@ -101,72 +116,74 @@ IWallMarkArray* RendererFactory::CreateWallMarkArray()
 
 void RendererFactory::DestroyWallMarkArray(IWallMarkArray* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	pObject->clear();
+	delete pObject;
 }
 
 void RendererFactory::DestroyStatsRender(IStatsRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 IStatsRender* RendererFactory::CreateStatsRender()
 {
-	return new StatsRenderer();
+	return new StatsRenderer(rendererDevice);
 }
 
 void RendererFactory::DestroyEnvironmentRender(IEnvironmentRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 IEnvironmentRender* RendererFactory::CreateEnvironmentRender()
 {
-	return new EnvironmentRenderer();
+	return new EnvironmentRenderer(rendererDevice);
 }
 
 IEnvDescriptorMixerRender* RendererFactory::CreateEnvDescriptorMixerRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new EnvDescMixerRenderer(rendererDevice);
 }
 
 void RendererFactory::DestroyEnvDescriptorMixerRender(IEnvDescriptorMixerRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	pObject->Destroy();
+	delete pObject;
 }
 
 void RendererFactory::DestroyEnvDescriptorRender(IEnvDescriptorRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 IEnvDescriptorRender* RendererFactory::CreateEnvDescriptorRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new EnvDescRenderer(rendererDevice);
 }
 
 IRainRender* RendererFactory::CreateRainRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new RainRenderer(rendererDevice);
 }
 
 void RendererFactory::DestroyRainRender(IRainRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 ILensFlareRender* RendererFactory::CreateLensFlareRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new LensFlareRenderer(rendererDevice);
 }
 
 void RendererFactory::DestroyLensFlareRender(ILensFlareRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 void RendererFactory::DestroyThunderboltRender(IThunderboltRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 IThunderboltRender* RendererFactory::CreateThunderboltRender()
@@ -181,25 +198,27 @@ IThunderboltDescRender* RendererFactory::CreateThunderboltDescRender()
 
 void RendererFactory::DestroyThunderboltDescRender(IThunderboltDescRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	pObject->DestroyModel();
+	delete pObject;
 }
 
 void RendererFactory::DestroyFlareRender(IFlareRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	pObject->DestroyShader();
+	delete pObject;
 }
 
 IFlareRender* RendererFactory::CreateFlareRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new FlareRenerer(rendererDevice);
 }
 
 IFontRender* RendererFactory::CreateFontRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new FontRenderer(rendererDevice);
 }
 
 void RendererFactory::DestroyFontRender(IFontRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }

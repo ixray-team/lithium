@@ -20,5 +20,10 @@ public:
 	void OnDeviceDestroy() override;
 
 	particles_systems::library_interface const& particles_systems_library() override;
+
+	EnvironmentRenderer(class IDiligentRenderingHost* owner);
+
+private:
+	IDiligentRenderingHost* device = nullptr;
 };
 

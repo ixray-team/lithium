@@ -47,7 +47,7 @@ ui_shader	*g_EquipmentIconsShader		= NULL;
 ui_shader	*g_MPCharIconsShader		= NULL;
 ui_shader	*g_OutfitUpgradeIconsShader	= NULL;
 ui_shader	*g_WeaponUpgradeIconsShader	= NULL;
-ui_shader	*g_tmpWMShader				= NULL;
+//ui_shader	*g_tmpWMShader				= NULL;
 static CUIStatic*	GetUIStatic				();
 
 typedef				std::pair<CHARACTER_RANK_VALUE, shared_str>	CharInfoStringID;
@@ -59,8 +59,11 @@ CharInfoStrings		*charInfoGoodwillStrings	= NULL;
 
 void InventoryUtilities::CreateShaders()
 {
-	g_tmpWMShader = xr_new<ui_shader>();
-	(*g_tmpWMShader)->create("effects\\wallmark",  "wm\\wm_grenade");
+	// @Scht.: WTF is this?
+	//g_tmpWMShader = xr_new<ui_shader>();
+	//(*g_tmpWMShader)->create("effects\\wallmark",  "wm\\wm_grenade");
+	// <<<
+
 	//g_tmpWMShader.create("effects\\wallmark",  "wm\\wm_grenade");
 }
 
@@ -81,8 +84,8 @@ void InventoryUtilities::DestroyShaders()
 	xr_delete(g_WeaponUpgradeIconsShader);
 	g_WeaponUpgradeIconsShader = 0;
 
-	xr_delete(g_tmpWMShader);
-	g_tmpWMShader = 0;
+	//xr_delete(g_tmpWMShader);
+	//g_tmpWMShader = 0;
 }
 
 bool InventoryUtilities::GreaterRoomInRuck(PIItem item1, PIItem item2)
@@ -133,8 +136,8 @@ bool InventoryUtilities::FreeRoom_inBelt	(TIItemContainer& item_list, PIItem _it
 	{
 		PIItem pItem = *it;
 		Ivector2 iWH = pItem->GetInvGridRect().rb; 
-		//проверить можно ли разместить элемент,
-		//проверяем последовательно каждую клеточку
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		found_place = false;
 	
 		for(i=0; (i<height - iWH.y +1) && !found_place; ++i)
@@ -162,7 +165,7 @@ bool InventoryUtilities::FreeRoom_inBelt	(TIItemContainer& item_list, PIItem _it
 			}
 		}
 
-		//разместить элемент на найденном месте
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 		if(found_place)
 		{
 			for(k=0; k<iWH.y; ++k)
@@ -178,7 +181,7 @@ bool InventoryUtilities::FreeRoom_inBelt	(TIItemContainer& item_list, PIItem _it
 	// remove
 	item_list.erase	(std::remove(item_list.begin(),item_list.end(),_item),item_list.end());
 
-	//для какого-то элемента места не нашлось
+	//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	if(!found_place) return false;
 
 	return true;
@@ -508,8 +511,8 @@ LPCSTR InventoryUtilities::GetGoodwillAsText(CHARACTER_GOODWILL goodwill)
 
 
 //////////////////////////////////////////////////////////////////////////
-// специальная функция для передачи info_portions при нажатии кнопок UI 
-// (для tutorial)
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ info_portions пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ UI 
+// (пїЅпїЅпїЅ tutorial)
 void InventoryUtilities::SendInfoToActor(LPCSTR info_id)
 {
 	if (GameID() != eGameIDSingle) return;

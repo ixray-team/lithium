@@ -4,6 +4,7 @@
 
 #include "../xrEngine/environment.h"
 #include "../xrEngine/xr_efflensflare.h"
+#include "IDiligentRenderingHost.h"
 
 //////////////////////////////////////////////////////////////////////////
 // UTILITY
@@ -249,4 +250,9 @@ particles_systems::library_interface const& EnvironmentRenderer::particles_syste
 {
 	throw std::logic_error("The method or operation is not implemented.");
 	//return	(renderer->PSLibrary);
+}
+
+EnvironmentRenderer::EnvironmentRenderer(IDiligentRenderingHost* owner)
+{
+	device = owner;
 }

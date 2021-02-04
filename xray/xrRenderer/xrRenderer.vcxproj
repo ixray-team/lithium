@@ -358,8 +358,14 @@
     <ClInclude Include="ApplicationRenderer.h" />
     <ClInclude Include="DebugRenderer.h" />
     <ClInclude Include="DrawUtilites.h" />
+    <ClInclude Include="EnvDescMixerRenderer.h" />
+    <ClInclude Include="EnvDescRenderer.h" />
     <ClInclude Include="EnvironmentRenderer.h" />
+    <ClInclude Include="FlareRenderer.h" />
+    <ClInclude Include="FontRenderer.h" />
     <ClInclude Include="IDiligentRenderingHost.h" />
+    <ClInclude Include="LensFlareRenderer.h" />
+    <ClInclude Include="RainRenderer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererBootstrap.h" />
     <ClInclude Include="RendererFactory.h" />
@@ -368,6 +374,7 @@
     <ClInclude Include="StatsRenderer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="UiRenderer.h" />
+    <ClInclude Include="UISeqVideoItem.h" />
     <ClInclude Include="UIShader.h" />
     <ClInclude Include="WallmarkArray.h" />
   </ItemGroup>
@@ -375,7 +382,13 @@
     <ClCompile Include="ApplicationRenderer.cpp" />
     <ClCompile Include="DebugRenderer.cpp" />
     <ClCompile Include="DrawUtilites.cpp" />
+    <ClCompile Include="EnvDescMixerRenderer.cpp" />
+    <ClCompile Include="EnvDescRenderer.cpp" />
     <ClCompile Include="EnvironmentRenderer.cpp" />
+    <ClCompile Include="FlareRenderer.cpp" />
+    <ClCompile Include="FontRenderer.cpp" />
+    <ClCompile Include="LensFlareRenderer.cpp" />
+    <ClCompile Include="RainRenderer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RendererBootstrap.cpp" />
     <ClCompile Include="RendererFactory.cpp" />
@@ -388,6 +401,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="UiRenderer.cpp" />
+    <ClCompile Include="UISeqVideoItem.cpp" />
     <ClCompile Include="UIShader.cpp" />
     <ClCompile Include="WallmarkArray.cpp" />
   </ItemGroup>

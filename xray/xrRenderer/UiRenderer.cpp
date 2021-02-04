@@ -16,12 +16,12 @@ IUIRender* UiRenderer::Instance()
 
 void UiRenderer::CreateUIGeom()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	//throw std::logic_error("The method or operation is not implemented.");
 }
 
 void UiRenderer::DestroyUIGeom()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	//throw std::logic_error("The method or operation is not implemented.");
 }
 
 void UiRenderer::SetShader(IUIShader& shader)

@@ -125,3 +125,8 @@ void ApplicationRenderer::load_draw_internal(CApplication& owner)
 void ApplicationRenderer::KillHW()
 {
 }
+
+ApplicationRenderer::ApplicationRenderer(IDiligentRenderingHost* dev)
+{
+	device = dev;
+}

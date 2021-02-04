@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "StatsRenderer.h"
+#include "IDiligentRenderingHost.h"
 
 void StatsRenderer::Copy(IStatsRender& _in)
 {
@@ -31,4 +32,9 @@ void StatsRenderer::GuardDrawCalls(CGameFont& F)
 
 void StatsRenderer::SetDrawParams(IRenderDeviceRender* pRender)
 {
+}
+
+StatsRenderer::StatsRenderer(IDiligentRenderingHost* dev)
+{
+	device = dev;
 }

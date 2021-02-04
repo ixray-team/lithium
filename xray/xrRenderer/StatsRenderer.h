@@ -16,5 +16,11 @@ public:
 	void GuardDrawCalls(CGameFont& F) override;
 
 	void SetDrawParams(IRenderDeviceRender* pRender) override;
+
+	StatsRenderer(class IDiligentRenderingHost* dev);
+
+private:
+	IDiligentRenderingHost* device;
+
 };
 

@@ -41,6 +41,28 @@
     <ClInclude Include="RenderingDevice_apiMode.h">
       <Filter>Device</Filter>
     </ClInclude>
+    <ClInclude Include="IDiligentRenderingHost.h" />
+    <ClInclude Include="EnvDescRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvDescMixerRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="UISeqVideoItem.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="RainRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="LensFlareRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="FontRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="FlareRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererBootstrap.cpp">
@@ -88,6 +110,27 @@
     </ClCompile>
     <ClCompile Include="RenderingDevice_Utility.cpp">
       <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvDescMixerRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvDescRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="UISeqVideoItem.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="RainRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="LensFlareRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="FontRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="FlareRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

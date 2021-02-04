@@ -66,11 +66,13 @@ void main(in PSInput psIn, out PSOutput psOut)
 
 bool UIShader::inited()
 {
-	return false;
+	return ps && vs;
 }
 
 void UIShader::destroy()
 {
+	if (ps) ps.Release();
+	if (vs) vs.Release();
 }
 
 UIShader::UIShader(IDiligentRenderingHost* owner)

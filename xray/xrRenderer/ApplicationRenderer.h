@@ -12,5 +12,11 @@ public:
 	void setLevelLogo(LPCSTR pszLogoName) override;
 	void load_draw_internal(CApplication& owner) override;
 	void KillHW() override;
+
+	ApplicationRenderer(class IDiligentRenderingHost* dev);
+
+private:
+	IDiligentRenderingHost* device;
+
 };
 
