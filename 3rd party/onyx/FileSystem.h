@@ -54,7 +54,7 @@ namespace onyx
 		static FileSystem* instance;
 
 	public:
-		File open(std::string path, FileOpenMode mode = FileOpenMode::Read, FileCreateMode create = FileCreateMode::EmptyIfNotExists);
+		File file(std::string path, FileOpenMode mode = FileOpenMode::Read, FileCreateMode create = FileCreateMode::EmptyIfNotExists);
 		bool exists(std::string path);
 
 	private:

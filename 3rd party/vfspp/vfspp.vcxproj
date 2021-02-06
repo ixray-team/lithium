@@ -103,6 +103,9 @@
       <PreprocessorDefinitions>PLATFORM=Windows;_DEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./include</AdditionalIncludeDirectories>
     </ClCompile>
+    <Lib>
+      <OutputFile>$(SolutionDir)..\..\SDK\libraries\$(Platform)\$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\CFileInfo.cpp" />

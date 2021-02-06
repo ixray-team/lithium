@@ -3,7 +3,7 @@
 
 namespace onyx
 {
-    using fsize_t = unsigned long;
+    using fsize_t = unsigned long long;
 
     class IFile
     {

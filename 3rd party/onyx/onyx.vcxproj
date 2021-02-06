@@ -103,7 +103,11 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)SDK/libraries/$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalOptions>vfspp.lib %(AdditionalOptions)</AdditionalOptions>
     </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

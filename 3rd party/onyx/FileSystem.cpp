@@ -41,7 +41,7 @@ FileSystem::FileSystem()
 	vfs->AddFileSystem("memory/", fs_tmp);
 }
 
-onyx::File FileSystem::open(std::string path, FileOpenMode mode, FileCreateMode create)
+onyx::File FileSystem::file(std::string path, FileOpenMode mode, FileCreateMode create)
 {
 	vfspp::IFile::FileMode vfsMode = vfspp::IFile::In;
 
