@@ -66,7 +66,7 @@ namespace onyx
         template<typename T>
         fsize_t Write(const T& value)
         {
-            return (Write(&value, sizeof(value)) == sizeof(value));
+            return Write(&value, sizeof(value));
         }
 
         inline bool operator==(const IFile& other)
