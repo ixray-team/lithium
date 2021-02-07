@@ -25,8 +25,6 @@
 #include <process.h>
 #include <locale.h>
 
-#include "xrSash.h"
-
 #include "securom_api.h"
 
 //---------------------------------------------------------------------
@@ -356,17 +354,11 @@ void Startup()
 	Engine.Event.Dump			( );
 
 	destroyInput();
-
-	if( !g_bBenchmark && !g_SASH.IsRunning())
-		destroySettings();
+	destroySettings();
 
 	LALib.OnDestroy				( );
 	
-	if( !g_bBenchmark && !g_SASH.IsRunning())
-		destroyConsole();
-	else
-		Console->Destroy();
-
+	destroyConsole();
 	destroySound();
 	destroyEngine();
 }
@@ -516,19 +508,6 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 			string64				b_name;
 			sscanf					(strstr(Core.Params,benchName)+sz,"%[^ ] ",b_name);
 			doBenchmark				(b_name);
-			return 0;
-		}
-
-		Msg("command line %s", lpCmdLine);
-		LPCSTR sashName = "-openautomate ";
-		if(strstr(lpCmdLine, sashName))
-		{
-			int sz = xr_strlen(sashName);
-			string512				sash_arg;
-			sscanf					(strstr(Core.Params,sashName)+sz,"%[^ ] ",sash_arg);
-			//doBenchmark				(sash_arg);
-			g_SASH.Init(sash_arg);
-			g_SASH.MainLoop();
 			return 0;
 		}
 
@@ -722,8 +701,6 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
 {
 	if (E==eQuit)
 	{
-		g_SASH.EndBenchmark();
-
 		PostQuitMessage	(0);
 		
 		for (u32 i=0; i<Levels.size(); i++)
