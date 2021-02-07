@@ -157,6 +157,9 @@ void CZipFile::Open(int mode)
 	}
 
 	std::string absPath = FileInfo().AbsolutePath();
+
+	absPath = absPath.substr(m_FileInfo.BasePath().length(), absPath.length() - 1);
+
 	if (CStringUtils::StartsWith(absPath, "/"))
 	{
 		absPath = absPath.substr(1, absPath.length() - 1);
@@ -221,11 +224,13 @@ uint64_t CZipFile::Read(uint8_t* buffer, uint64_t size)
 		return 0;
 	}
 
-	// check offsets
-	if (m_SeekPos + size > m_Size || size > m_Size)
-	{
-		return 0;
-	}
+	// clamp to buffer
+	if (size > m_Size)
+		size = m_Size;
+
+	// clamp to available data
+	if (m_SeekPos + size > m_Size)
+		size = m_Size - m_SeekPos;
 
 	// read file
 	if (m_ZipArchive->ReadFile(m_Index, buffer, m_SeekPos, size))

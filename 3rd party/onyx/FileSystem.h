@@ -10,12 +10,20 @@
 #include <vfspp/IFile.h>
 #include <vfspp/CNativeFile.h>
 #include <vfspp/CMemoryFileSystem.h>
+#include <vfspp/CZipFileSystem.h>
 
 #include "IFile.h"
 
 namespace onyx
 {
 	using File = std::shared_ptr<onyx::IFile>;
+
+	enum class FileSystemAttachMode
+	{
+		PhysicalFS,
+		ZipFile,
+		Memory
+	};
 
 	enum class FileOpenMode
 	{
@@ -54,6 +62,7 @@ namespace onyx
 		static FileSystem* instance;
 
 	public:
+		void attach(std::string path, std::string virtualRoot, FileSystemAttachMode mode);
 		File file(std::string path, FileOpenMode mode = FileOpenMode::Read, FileCreateMode create = FileCreateMode::EmptyIfNotExists);
 		bool exists(std::string path);
 
