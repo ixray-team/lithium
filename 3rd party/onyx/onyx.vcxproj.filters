@@ -9,6 +9,8 @@
     </Filter>
     <Filter Include="dynamicLibraryReference">
       <UniqueIdentifier>{3eb82436-984b-42ed-a744-cd45934e7164}</UniqueIdentifier>
+    <Filter Include="fs">
+      <UniqueIdentifier>{5cb1f817-4128-459d-a648-32634e4376ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -21,6 +23,11 @@
     <ClInclude Include="onyx\framework.h" />
     <ClInclude Include="onyx\DynamicLibRef.h">
       <Filter>dynamicLibraryReference</Filter>
+    <ClInclude Include="FileSystem.h">
+      <Filter>fs</Filter>
+    </ClInclude>
+    <ClInclude Include="IFile.h">
+      <Filter>fs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -29,6 +36,8 @@
     </ClCompile>
     <ClCompile Include="onyx\DynamicLibRef.cpp">
       <Filter>dynamicLibraryReference</Filter>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>fs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
