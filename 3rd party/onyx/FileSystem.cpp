@@ -62,7 +62,7 @@ onyx::File FileSystem::file(std::string path, FileOpenMode mode, FileCreateMode 
 	}
 
 	if (fileExists && create == FileCreateMode::FailIfExists)
-		throw new std::exception((std::string("File ")+path+" exists").c_str());
+		throw new std::exception((std::string("File ") + path + " exists").c_str());
 
 	if (!fileExists && create == FileCreateMode::FailIfNotExist)
 		throw new std::exception((std::string("File ") + path + " doesn't exist").c_str());
@@ -81,25 +81,25 @@ void FileSystem::attach(std::string path, std::string virtualRoot, FileSystemAtt
 {
 	switch (mode)
 	{
-	case FileSystemAttachMode::PhysicalFS:
-	{
-		vfs->AddFileSystem(virtualRoot, vfspp::IFileSystemPtr(new vfspp::CNativeFileSystem("./gamedata/" + path)));
-		break;
-	}
-	case FileSystemAttachMode::ZipFile:
-	{
-		auto zipFs = new vfspp::CZipFileSystem("./gamedata/" + path, virtualRoot);
-		vfspp::IFileSystemPtr pFs(zipFs);
-		pFs->Initialize();
-		vfs->AddFileSystem(virtualRoot, pFs);
-		break;
-	}
-	case FileSystemAttachMode::Memory:
-	{
-		vfspp::IFileSystemPtr _(new vfspp::CMemoryFileSystem());
-		vfs->AddFileSystem(virtualRoot, _);
-		break;
-	}
+		case FileSystemAttachMode::PhysicalFS:
+		{
+			vfs->AddFileSystem(virtualRoot, vfspp::IFileSystemPtr(new vfspp::CNativeFileSystem("./gamedata/" + path)));
+			break;
+		}
+		case FileSystemAttachMode::ZipFile:
+		{
+			auto zipFs = new vfspp::CZipFileSystem("./gamedata/" + path, virtualRoot);
+			vfspp::IFileSystemPtr pFs(zipFs);
+			pFs->Initialize();
+			vfs->AddFileSystem(virtualRoot, pFs);
+			break;
+		}
+		case FileSystemAttachMode::Memory:
+		{
+			vfspp::IFileSystemPtr _(new vfspp::CMemoryFileSystem());
+			vfs->AddFileSystem(virtualRoot, _);
+			break;
+		}
 	}
 }
 
