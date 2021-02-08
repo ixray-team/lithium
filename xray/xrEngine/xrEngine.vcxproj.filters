@@ -244,9 +244,6 @@
     <Filter Include="editor\ide">
       <UniqueIdentifier>{d433b8b0-30c8-47f3-a8fe-0681a0edb3e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OpenAutomate">
-      <UniqueIdentifier>{eb6d7a90-33ba-4115-b638-ee37a40d2a06}</UniqueIdentifier>
-    </Filter>
     <Filter Include="My Amplifier Results">
       <UniqueIdentifier>{b4eb7821-019c-47c0-91c1-abbe68a8c9fa}</UniqueIdentifier>
     </Filter>
@@ -618,9 +615,6 @@
     <ClInclude Include="ide.hpp">
       <Filter>editor\ide</Filter>
     </ClInclude>
-    <ClInclude Include="xrSASH.h">
-      <Filter>OpenAutomate</Filter>
-    </ClInclude>
     <ClInclude Include="DamnKeysFilter.h">
       <Filter>Interfaces\Input</Filter>
     </ClInclude>
@@ -964,9 +958,6 @@
     </ClCompile>
     <ClCompile Include="editor_environment_detail.cpp">
       <Filter>editor\environment\detail</Filter>
-    </ClCompile>
-    <ClCompile Include="xrSASH.cpp">
-      <Filter>OpenAutomate</Filter>
     </ClCompile>
     <ClCompile Include="DamnKeysFilter.cpp">
       <Filter>Interfaces\Input</Filter>

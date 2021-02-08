@@ -38,7 +38,6 @@ private:
 	HMODULE				hRender;
 	HMODULE				hTuner;
 public:
-	BENCH_SEC_SCRAMBLEMEMBER1
 	Factory_Create*		pCreate;
 	Factory_Destroy*	pDestroy;
 	BOOL				tune_enabled;
