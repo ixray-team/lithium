@@ -23,7 +23,6 @@
 #define INCLUDE_FROM_ENGINE
 #include "../xrCore/FS_impl.h"
 
-#include "xrSash.h"
 #include "igame_persistent.h"
 #include "d3dx/d3dx10math.h"
 
@@ -115,9 +114,6 @@ void CRenderDevice::End		(void)
 	}
 
 	g_bRendering		= FALSE;
-
-	if (g_SASH.IsBenchmarkRunning())
-		g_SASH.DisplayFrame(Device.fTimeGlobal);
 
 	m_pRender->End();
 
@@ -212,10 +208,6 @@ void CRenderDevice::on_idle		()
 		return;
 	}else 
 	{
-		if ( (!Device.dwPrecacheFrame) && (!g_SASH.IsBenchmarkRunning())
-			&& g_bLoaded)
-			g_SASH.StartBenchmark();
-
 		FrameMove						( );
 	}
 
@@ -420,7 +412,6 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
 {
 	static int snd_emitters_ = -1;
 
-	if (g_bBenchmark) return;
 
 	if(bOn)
 	{
