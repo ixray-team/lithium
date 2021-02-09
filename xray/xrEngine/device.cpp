@@ -25,7 +25,6 @@
 #	include "engine_impl.hpp"
 #endif // #ifdef INGAME_EDITOR
 
-#include "xrSash.h"
 #include "igame_persistent.h"
 
 ENGINE_API CRenderDevice Device;
@@ -152,9 +151,6 @@ void CRenderDevice::End		(void)
 
 	g_bRendering		= FALSE;
 	// end scene
-	//	Present goes here, so call OA Frame end.
-	if (g_SASH.IsBenchmarkRunning())
-		g_SASH.DisplayFrame(Device.fTimeGlobal);
 	m_pRender->End();
 	//RCache.OnFrameEnd	();
 	//Memory.dbg_check		();
@@ -248,10 +244,6 @@ void CRenderDevice::on_idle		()
 		return;
 	}else 
 	{
-		if ( (!Device.dwPrecacheFrame) && (!g_SASH.IsBenchmarkRunning())
-			&& g_bLoaded)
-			g_SASH.StartBenchmark();
-
 		FrameMove						( );
 	}
 
@@ -493,9 +485,6 @@ ENGINE_API BOOL bShowPauseString = TRUE;
 void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
 {
 	static int snd_emitters_ = -1;
-
-	if (g_bBenchmark)	return;
-
 
 #ifdef DEBUG
 //	Msg("pause [%s] timer=[%s] sound=[%s] reason=%s",bOn?"ON":"OFF", bTimer?"ON":"OFF", bSound?"ON":"OFF", reason);

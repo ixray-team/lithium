@@ -4,6 +4,8 @@
 #include "dx10BufferUtils.h"
 #include "../xrRender/dxRenderDeviceRender.h"
 
+#include <onyx/crc.h>
+
 dx10ConstantBuffer::~dx10ConstantBuffer()
 {
 	DEV->_DeleteConstantBuffer(this);
@@ -43,7 +45,7 @@ dx10ConstantBuffer::dx10ConstantBuffer(ID3DShaderReflectionConstantBuffer* pTabl
 		m_MembersNames[i] = var_desc.Name;
 	}
 
-	m_uiMembersCRC = crc32( &m_MembersList[0], Desc.Variables*sizeof(m_MembersList[0]));
+	m_uiMembersCRC = crc::crcFast((unsigned char*)&m_MembersList[0], Desc.Variables * sizeof(m_MembersList[0]));
 
 	R_CHK(dx10BufferUtils::CreateConstantBuffer(&m_pBuffer, Desc.Size));
 	VERIFY(m_pBuffer);

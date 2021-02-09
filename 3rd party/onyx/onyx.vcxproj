@@ -95,11 +95,19 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)SDK/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)SDK/libraries/$(Platform)</AdditionalLibraryDirectories>
+      <AdditionalOptions>vfspp.lib %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,11 +163,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FileSystem.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="IFile.h" />
     <ClInclude Include="onyx\crc.h" />
     <ClInclude Include="onyx\noncopyable.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="onyx\crc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

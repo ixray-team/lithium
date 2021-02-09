@@ -5,6 +5,8 @@
 
 #include "FS_impl.h"
 
+#include <onyx/crc.h>
+
 XRCORE_API	extern		str_container*	g_pStringContainer	= NULL;
 
 const int HEADER = sizeof(str_value);// ref + len + crc + next
@@ -78,7 +80,7 @@ struct str_container_impl
 			str_value* value = buffer[i];
 			while ( value )
 			{
-				u32			crc		= crc32	(value->value, value->dwLength);
+				unsigned int crc = crc::crcFast((unsigned char*)value->value, value->dwLength);
 				string32	crc_str;
 				R_ASSERT3	(crc==value->dwCRC, "CorePanic: read-only memory corruption (shared_strings)", itoa(value->dwCRC,crc_str,16));
 				R_ASSERT3	(value->dwLength == xr_strlen(value->value), "CorePanic: read-only memory corruption (shared_strings, internal structures)", value->value);
@@ -161,7 +163,7 @@ str_value*	str_container::dock		(str_c value)
 	str_value*	sv				= (str_value*)header;
 	sv->dwReference				= 0;
 	sv->dwLength				= s_len;
-	sv->dwCRC					= crc32	(value,s_len);
+	sv->dwCRC					= crc::crcFast((unsigned char*)value, s_len);
 
 	// search
 	result						= impl->find	(sv, value);
@@ -301,7 +303,7 @@ str_value*	str_container::dock		(str_c value)
 	str_value*	sv				= (str_value*)header;
 	sv->dwReference				= 0;
 	sv->dwLength				= s_len;
-	sv->dwCRC					= crc32	(value,s_len);
+	sv->dwCRC					= crc::crcFast((unsigned char*)value, s_len);
 	sv->next					= NULL;
 	
 	// search
@@ -385,7 +387,7 @@ void		str_container::verify	()
 	str_container_impl::cdb::iterator	end	= impl->container.end		();
 	for (; it!=end; ++it)	{
 		str_value*	sv		= *it;
-		u32			crc		= crc32	(sv->value,sv->dwLength);
+		unsigned int crc = crc::crcFast((unsigned char*)sv->value, sv->dwLength);
 		string32	crc_str;
 		R_ASSERT3	(crc==sv->dwCRC, "CorePanic: read-only memory corruption (shared_strings)", itoa(sv->dwCRC,crc_str,16));
 		R_ASSERT3	(sv->dwLength == xr_strlen(sv->value), "CorePanic: read-only memory corruption (shared_strings, internal structures)", sv->value);
