@@ -365,14 +365,18 @@
     <ClInclude Include="FontRenderer.h" />
     <ClInclude Include="IDiligentRenderingHost.h" />
     <ClInclude Include="LensFlareRenderer.h" />
+    <ClInclude Include="ObjectSpaceRenderer.h" />
     <ClInclude Include="RainRenderer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererBootstrap.h" />
     <ClInclude Include="RendererFactory.h" />
     <ClInclude Include="RenderingDevice.h" />
     <ClInclude Include="RenderingDevice_apiMode.h" />
+    <ClInclude Include="StatGraphRenderer.h" />
     <ClInclude Include="StatsRenderer.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ThunderboltDescRenderer.h" />
+    <ClInclude Include="ThunderboltRenderer.h" />
     <ClInclude Include="UiRenderer.h" />
     <ClInclude Include="UISeqVideoItem.h" />
     <ClInclude Include="UIShader.h" />
@@ -388,6 +392,7 @@
     <ClCompile Include="FlareRenderer.cpp" />
     <ClCompile Include="FontRenderer.cpp" />
     <ClCompile Include="LensFlareRenderer.cpp" />
+    <ClCompile Include="ObjectSpaceRenderer.cpp" />
     <ClCompile Include="RainRenderer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RendererBootstrap.cpp" />
@@ -396,10 +401,13 @@
     <ClCompile Include="RenderingDevice_host.cpp" />
     <ClCompile Include="RenderingDevice_Lifecycle.cpp" />
     <ClCompile Include="RenderingDevice_Utility.cpp" />
+    <ClCompile Include="StatGraphRenderer.cpp" />
     <ClCompile Include="StatsRenderer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ThunderboltDescRenderer.cpp" />
+    <ClCompile Include="ThunderboltRenderer.cpp" />
     <ClCompile Include="UiRenderer.cpp" />
     <ClCompile Include="UISeqVideoItem.cpp" />
     <ClCompile Include="UIShader.cpp" />

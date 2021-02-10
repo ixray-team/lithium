@@ -8,7 +8,23 @@ void UIShader::Copy(IUIShader& _in)
 
 void UIShader::create(LPCSTR sh, LPCSTR tex /*= 0*/)
 {
-	//#TODO: Migrate to new FS impl
+	std::string shaderFileName = std::string("/shaders/") + sh + "_vs.hlsl";
+	/*
+	if (!onyx::fs().exists(shaderFileName))
+	{
+		//create_default(sh, tex);
+		return;
+	}*/
+	onyx::File file = onyx::fs().file(shaderFileName);
+	
+	file->Open(onyx::IFile::FileMode::In);
+
+	onyx::fsize_t fileLength = file->Size();
+	u8* buffer = new u8[fileLength];
+	ZeroMemory(buffer, fileLength);
+	file->Read(buffer, fileLength);
+	file->Close();
+	file = nullptr;
 
 	Diligent::IRenderDevice* device = owner->dilGetDevice();
 

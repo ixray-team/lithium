@@ -151,9 +151,6 @@
     <Filter Include="RenderRef\doug_lea_memory_allocator">
       <UniqueIdentifier>{31ceec99-8e7b-43df-a2e6-c342a3e28cc1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OpenAutomate">
-      <UniqueIdentifier>{eb6d7a90-33ba-4115-b638-ee37a40d2a06}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_d3d_extensions.h">
@@ -426,9 +423,6 @@
     <ClInclude Include="doug_lea_memory_allocator.h">
       <Filter>RenderRef\doug_lea_memory_allocator</Filter>
     </ClInclude>
-    <ClInclude Include="xrSASH.h">
-      <Filter>OpenAutomate</Filter>
-    </ClInclude>
     <ClInclude Include="DamnKeysFilter.h">
       <Filter>Interfaces\Input</Filter>
     </ClInclude>
@@ -688,9 +682,6 @@
     </ClCompile>
     <ClCompile Include="doug_lea_memory_allocator.c">
       <Filter>RenderRef\doug_lea_memory_allocator</Filter>
-    </ClCompile>
-    <ClCompile Include="xrSASH.cpp">
-      <Filter>OpenAutomate</Filter>
     </ClCompile>
     <ClCompile Include="DamnKeysFilter.cpp">
       <Filter>Interfaces\Input</Filter>

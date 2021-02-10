@@ -170,6 +170,7 @@
     <ClInclude Include="onyx\DynamicLibRef.h" />
     <ClInclude Include="onyx\framework.h" />
     <ClInclude Include="onyx\noncopyable.hpp" />
+    <ClInclude Include="string_extensions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileSystem.cpp" />

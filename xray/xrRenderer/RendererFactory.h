@@ -71,6 +71,9 @@ public:
 	void DestroyFontRender(IFontRender* pObject) override;
 
 private:
-	class IDiligentRenderingHost* rendererDevice;
+	class IDiligentRenderingHost* rendererDevice = nullptr;
+
+public:
+	IDiligentRenderingHost* GetRendererDevice();
 };
 

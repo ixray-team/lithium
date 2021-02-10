@@ -1,14 +1,25 @@
 #include "stdafx.h"
 #include "UiRenderer.h"
+
+#include "RendererFactory.h"
+#include "IDiligentRenderingHost.h"
+
 #include <stdexcept>
 
+
 IUIRender* UiRenderer::_instance;
+
+UiRenderer::UiRenderer(class IDiligentRenderingHost* dev)
+{
+	device = dev;
+}
 
 IUIRender* UiRenderer::Instance()
 {
 	if (_instance == nullptr)
 	{
-		_instance = new UiRenderer();
+		IDiligentRenderingHost* host = ((RendererFactory*)RendererFactory::Instance())->GetRendererDevice();
+		_instance = new UiRenderer(host);
 	}
 
 	return _instance;
@@ -16,12 +27,32 @@ IUIRender* UiRenderer::Instance()
 
 void UiRenderer::CreateUIGeom()
 {
-	//throw std::logic_error("The method or operation is not implemented.");
+	Diligent::IRenderDevice* dev = device->dilGetDevice();
+	
+	Diligent::BufferDesc vertexBufferDesc;
+	vertexBufferDesc.Name = "UI Geometry Vertex Buffer";
+	vertexBufferDesc.Usage = Diligent::USAGE::USAGE_DEFAULT;
+	vertexBufferDesc.BindFlags = Diligent::BIND_FLAGS::BIND_VERTEX_BUFFER;
+	//vertexBufferDesc.CPUAccessFlags = Diligent::CPU_ACCESS_FLAGS::CPU_ACCESS_READ | Diligent::CPU_ACCESS_FLAGS::CPU_ACCESS_WRITE;
+	vertexBufferDesc.Mode = Diligent::BUFFER_MODE::BUFFER_MODE_RAW;
+	vertexBufferDesc.uiSizeInBytes = sizeof(float) * 2 * 4;		// Float2 x 4 verts (screen quad)
+	vertexBufferDesc.ElementByteStride = 2 * sizeof(float);
+
+	Diligent::BufferData bdata;
+	bdata.DataSize = sizeof(float) * 2 * 4;
+	bdata.pData = (void*) new float[2 * 4]{
+		-1.f, -1.f,
+		1.f, -1.f,
+		-1.f, 1.f,
+		1.f, 1.f
+	};
+
+	dev->CreateBuffer(vertexBufferDesc, &bdata, &uiVertexBuffer);
 }
 
 void UiRenderer::DestroyUIGeom()
 {
-	//throw std::logic_error("The method or operation is not implemented.");
+	uiVertexBuffer->Release();
 }
 
 void UiRenderer::SetShader(IUIShader& shader)
@@ -61,7 +92,7 @@ void UiRenderer::FlushPrimitive()
 
 LPCSTR UiRenderer::UpdateShaderName(LPCSTR tex_name, LPCSTR sh_name)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return sh_name;
 }
 
 void UiRenderer::CacheSetXformWorld(const Fmatrix& M)

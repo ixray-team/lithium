@@ -8,7 +8,7 @@ private:
 	static IUIRender* _instance;
 
 protected:
-	UiRenderer() {};
+	UiRenderer(class IDiligentRenderingHost* dev);
 
 public:
 	static IUIRender* Instance();
@@ -30,6 +30,11 @@ public:
 	LPCSTR UpdateShaderName(LPCSTR tex_name, LPCSTR sh_name) override;
 	void CacheSetXformWorld(const Fmatrix& M) override;
 	void CacheSetCullMode(CullMode) override;
+
+private:
+	IDiligentRenderingHost* device;
+
+	Diligent::IBuffer* uiVertexBuffer = nullptr;
 
 };
 

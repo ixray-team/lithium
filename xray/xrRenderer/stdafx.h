@@ -40,6 +40,8 @@
 #endif
 #endif
 
+#include <string>
+
 #include <DiligentCore/Common/interface/BasicMath.hpp>
 #include <DiligentCore/Common/interface/RefCntAutoPtr.hpp>
 
@@ -50,3 +52,5 @@
 #include <DiligentCore/Graphics/GraphicsEngine/interface/SwapChain.h>
 
 template<typename T> using ref_ptr = typename Diligent::template RefCntAutoPtr<T>;
+
+#include <FileSystem.h>

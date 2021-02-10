@@ -63,6 +63,18 @@
     <ClInclude Include="FlareRenderer.h">
       <Filter>FactoryImplementation</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectSpaceRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="StatGraphRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="ThunderboltDescRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
+    <ClInclude Include="ThunderboltRenderer.h">
+      <Filter>FactoryImplementation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RendererBootstrap.cpp">
@@ -132,6 +144,16 @@
     <ClCompile Include="FlareRenderer.cpp">
       <Filter>FactoryImplementation</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectSpaceRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="StatGraphRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="ThunderboltDescRenderer.cpp">
+      <Filter>FactoryImplementation</Filter>
+    </ClCompile>
+    <ClCompile Include="ThunderboltRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Loader">

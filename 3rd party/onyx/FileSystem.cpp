@@ -1,4 +1,5 @@
 #include "FileSystem.h"
+#include "string_extensions.hpp"
 
 using namespace onyx;
 
@@ -23,27 +24,33 @@ FileSystem::FileSystem()
 {
 	vfspp::vfs_initialize();
 
-	const std::string basePath = "./gamedata/";
+	const std::string basePath = "./gamedata";
 
 	std::vector<std::string> fsFolders {
-		"anims/", "configs/", "levels/", "meshes/", "scripts/",
-		"shaders/", "sounds/", "spawns/", "textures/"
+		"/anims", "/configs", "/levels", "/meshes", "/scripts",
+		"/shaders", "/sounds", "/spawns", "/textures"
 	};
 
 	vfs = vfspp::vfs_get_global();
 
 	for (const std::string& folder : fsFolders)
-		vfs->AddFileSystem(folder, vfspp::IFileSystemPtr(new vfspp::CNativeFileSystem(basePath + folder)));
+	{
+		auto pfs = vfspp::IFileSystemPtr(new vfspp::CNativeFileSystem(basePath + folder));
+		pfs->Initialize();
+		vfs->AddFileSystem(folder, pfs);
+	}
 
 	vfspp::IFileSystemPtr fs_tmp(new vfspp::CMemoryFileSystem());
-	vfs->AddFileSystem("tmp/", fs_tmp);
-	vfs->AddFileSystem("temp/", fs_tmp);
-	vfs->AddFileSystem("memory/", fs_tmp);
+	vfs->AddFileSystem("/tmp", fs_tmp);
+	vfs->AddFileSystem("/temp", fs_tmp);
+	vfs->AddFileSystem("/memory", fs_tmp);
 }
 
 onyx::File FileSystem::file(std::string path, FileOpenMode mode, FileCreateMode create)
 {
 	vfspp::IFile::FileMode vfsMode = vfspp::IFile::In;
+
+	std::replaceAll(path, "\\", "/");
 
 	vfspp::CFileInfo fileInfo = vfspp::CFileInfo(path);
 
@@ -74,11 +81,14 @@ onyx::File FileSystem::file(std::string path, FileOpenMode mode, FileCreateMode 
 
 bool FileSystem::exists(std::string path)
 {
+	std::replaceAll(path, "\\", "/");
 	return vfs->FileExists(path);
 }
 
 void FileSystem::attach(std::string path, std::string virtualRoot, FileSystemAttachMode mode)
 {
+	std::replaceAll(path, "\\", "/");
+
 	switch (mode)
 	{
 		case FileSystemAttachMode::PhysicalFS:

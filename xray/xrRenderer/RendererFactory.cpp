@@ -9,9 +9,6 @@
 #include "ApplicationRenderer.h"
 #include "EnvironmentRenderer.h"
 #include "WallmarkArray.h"
-#include "../Include/xrRender/LensFlareRender.h"
-#include "../Include/xrRender/ThunderboltDescRender.h"
-#include "../Include/xrRender/UISequenceVideoItem.h"
 #include "EnvDescRenderer.h"
 #include "EnvDescMixerRenderer.h"
 #include "UISeqVideoItem.h"
@@ -19,6 +16,10 @@
 #include "LensFlareRenderer.h"
 #include "FontRenderer.h"
 #include "FlareRenderer.h"
+#include "ObjectSpaceRenderer.h"
+#include "StatGraphRenderer.h"
+#include "ThunderboltDescRenderer.h"
+#include "ThunderboltRenderer.h"
 
 IRenderFactory* RendererFactory::_instance;
 
@@ -61,7 +62,7 @@ void RendererFactory::DestroyStatGraphRender(IStatGraphRender* pObject)
 
 IStatGraphRender* RendererFactory::CreateStatGraphRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new StatGraphRenderer(rendererDevice);
 }
 
 IConsoleRender* RendererFactory::CreateConsoleRender()
@@ -83,18 +84,20 @@ void RendererFactory::DestroyRenderDeviceRender(IRenderDeviceRender* pObject)
 
 IRenderDeviceRender* RendererFactory::CreateRenderDeviceRender()
 {
-	rendererDevice = new RenderingDevice();
+	if (rendererDevice == nullptr)
+		rendererDevice = new RenderingDevice();
+
 	return (RenderingDevice*)rendererDevice;
 }
 
 void RendererFactory::DestroyObjectSpaceRender(IObjectSpaceRender* pObject)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	delete pObject;
 }
 
 IObjectSpaceRender* RendererFactory::CreateObjectSpaceRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new ObjectSpaceRenderer(rendererDevice);
 }
 
 IApplicationRender* RendererFactory::CreateApplicationRender()
@@ -188,12 +191,12 @@ void RendererFactory::DestroyThunderboltRender(IThunderboltRender* pObject)
 
 IThunderboltRender* RendererFactory::CreateThunderboltRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new ThunderboltRenderer(rendererDevice);
 }
 
 IThunderboltDescRender* RendererFactory::CreateThunderboltDescRender()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	return new ThunderboltDescRenderer(rendererDevice);
 }
 
 void RendererFactory::DestroyThunderboltDescRender(IThunderboltDescRender* pObject)
@@ -221,4 +224,12 @@ IFontRender* RendererFactory::CreateFontRender()
 void RendererFactory::DestroyFontRender(IFontRender* pObject)
 {
 	delete pObject;
+}
+
+IDiligentRenderingHost* RendererFactory::GetRendererDevice()
+{
+	if (rendererDevice == nullptr)
+		rendererDevice = new RenderingDevice();
+
+	return rendererDevice;
 }
