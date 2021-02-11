@@ -74,7 +74,6 @@ void CNativeFileSystem::Initialize()
 	std::copy(stdfs::begin(it), stdfs::end(it), std::back_inserter(cache));
 
 	std::mutex set_mtx;
-
 	std::for_each(std::execution::par, cache.begin(), cache.end(), [&](stdfs::directory_entry& item) {
 		
 		if (item._Is_symlink_or_junction() || (!item.is_directory() && !item.is_regular_file()))
