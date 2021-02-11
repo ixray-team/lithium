@@ -1,18 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="FileSystem.cpp" />
-    <ClCompile Include="onyx\crc.cpp" />
-    <ClCompile Include="onyx\DynamicLibRef.cpp" />
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="noncopyable">
+      <UniqueIdentifier>{686a8bfc-c349-4b4d-bd37-f0f968bf64fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crc">
+      <UniqueIdentifier>{ae444ce0-62a6-4bcd-949f-ae49b33d0a29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fs">
+      <UniqueIdentifier>{5cb1f817-4128-459d-a648-32634e4376ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileSystem.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="IFile.h" />
-    <ClInclude Include="onyx\crc.h" />
-    <ClInclude Include="onyx\DynamicLibRef.h" />
-    <ClInclude Include="onyx\framework.h" />
-    <ClInclude Include="onyx\noncopyable.hpp" />
-    <ClInclude Include="string_extensions.hpp" />
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="onyx\noncopyable.hpp">
+      <Filter>noncopyable</Filter>
+    </ClInclude>
+    <ClInclude Include="onyx\fs\FileSystem.h">
+      <Filter>fs</Filter>
+    </ClInclude>
+    <ClInclude Include="onyx\fs\IFile.h">
+      <Filter>fs</Filter>
+    </ClInclude>
+    <ClInclude Include="onyx\crc\crc.h">
+      <Filter>crc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="onyx\fs\FileSystem.cpp">
+      <Filter>fs</Filter>
+    </ClCompile>
+    <ClCompile Include="onyx\crc\crc.cpp">
+      <Filter>crc</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

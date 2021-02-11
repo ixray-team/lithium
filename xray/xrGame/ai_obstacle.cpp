@@ -12,7 +12,7 @@
 #include "level_graph.h"
 #include "GameObject.h"
 #include "../Include/xrRender/Kinematics.h"
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 #include "../xrEngine/bone.h"
 

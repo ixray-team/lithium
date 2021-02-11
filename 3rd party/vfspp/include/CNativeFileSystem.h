@@ -106,7 +106,7 @@ public:
     
 private:
     IFilePtr FindFile(const CFileInfo& fileInfo) const;
-    void BuildFilelist(SDir* dir, std::string basePath, TFileList& outFileList);
+    //void BuildFilelist(SDir* dir, std::string basePath, TFileList& outFileList);
     
 private:
     std::string m_BasePath;

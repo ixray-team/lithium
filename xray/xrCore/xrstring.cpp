@@ -5,7 +5,7 @@
 
 #include "FS_impl.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 XRCORE_API	extern		str_container*	g_pStringContainer	= NULL;
 

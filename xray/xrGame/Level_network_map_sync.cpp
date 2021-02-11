@@ -6,7 +6,7 @@
 #include "string_table.h"
 #include "../xrEngine/xr_ioconsole.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 static const u32 r_buffer_size = 131072;	//128 Kb
 void CLevel::CalculateLevelCrc32()

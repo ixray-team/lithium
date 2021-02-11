@@ -8,7 +8,7 @@
 #include	"motion.h"
 #include	"..\Include\xrRender\Kinematics.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 motions_container*	g_pMotionsContainer	= 0;
 

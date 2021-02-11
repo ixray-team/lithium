@@ -18,7 +18,7 @@
 
 #include "../../xrEngine/EnnumerateVertices.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

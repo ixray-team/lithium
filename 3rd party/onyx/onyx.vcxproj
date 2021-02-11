@@ -95,7 +95,8 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)SDK/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)SDK/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,6 +155,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)SDK/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -163,19 +165,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="onyx\fs\FileSystem.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="IFile.h" />
-    <ClInclude Include="onyx\crc.h" />
-    <ClInclude Include="onyx\DynamicLibRef.h" />
-    <ClInclude Include="onyx\framework.h" />
+    <ClInclude Include="onyx\fs\IFile.h" />
+    <ClInclude Include="onyx\crc\crc.h" />
     <ClInclude Include="onyx\noncopyable.hpp" />
-    <ClInclude Include="string_extensions.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FileSystem.cpp" />
-    <ClCompile Include="onyx\crc.cpp" />
-    <ClCompile Include="onyx\DynamicLibRef.cpp" />
+    <ClCompile Include="onyx\fs\FileSystem.cpp" />
+    <ClCompile Include="onyx\crc\crc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

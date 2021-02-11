@@ -5,9 +5,21 @@
 //  Created by Yevgeniy Logachev on 6/23/16.
 //
 //
+#include <vector>
+#include <filesystem>
+#include <algorithm>
+#include <execution>
+
+#ifdef _WIN32
+#include <io.h>
+#define access _access
+#define W_OK 2
+#else
+#include <unistd.h>
+#include <dirent.h>
+#endif
 
 #include "CNativeFileSystem.h"
-#include <dirent.h>
 #include <fstream>
 #include "CNativeFile.h"
 #include "CStringUtilsVFS.h"
@@ -29,39 +41,7 @@
 
 using namespace vfspp;
 
-// *****************************************************************************
-// Constants
-// *****************************************************************************
-
-const uint64_t kChunkSize = 1024;
-struct SDir : public DIR {};
-
-// *****************************************************************************
-// Internal Methods
-// *****************************************************************************
-// https://stackoverflow.com/questions/2336242/recursive-mkdir-system-call-on-unix
-void rec_mkdir(const char *dir, int mode) 
-{
-	char tmp[MAX_PATH];
-	char *p = NULL;
-	size_t len;
-
-	snprintf(tmp, sizeof(tmp), "%s", dir);
-	len = strlen(tmp);
-	if (tmp[len - 1] == '/')
-		tmp[len - 1] = 0;
-	for (p = tmp + 1; *p; p++)
-	{
-		if (*p == '/') 
-		{
-			*p = 0;
-			mkdir(tmp, mode);
-			*p = '/';
-		}
-	}
-
-	mkdir(tmp, mode);
-}
+constexpr size_t kChunkSize = 1024;
 
 // *****************************************************************************
 // Public Methods
@@ -84,19 +64,32 @@ CNativeFileSystem::~CNativeFileSystem()
 
 void CNativeFileSystem::Initialize()
 {
+	namespace stdfs = std::filesystem;
+
 	if (m_IsInitialized)
-	{
 		return;
-	}
 
-	SDir *dir = static_cast<SDir*>(opendir(BasePath().c_str()));
-	if (dir)
-	{
-		BuildFilelist(dir, BasePath(), m_FileList);
-		m_IsInitialized = true;
+	auto& it = stdfs::recursive_directory_iterator(BasePath());
+	std::vector<stdfs::directory_entry> cache;
+	std::copy(stdfs::begin(it), stdfs::end(it), std::back_inserter(cache));
 
-		closedir(dir);
-	}
+	std::mutex set_mtx;
+	std::for_each(std::execution::par, cache.begin(), cache.end(), [&](stdfs::directory_entry& item) {
+		
+		if (item._Is_symlink_or_junction() || (!item.is_directory() && !item.is_regular_file()))
+			return;
+
+		stdfs::path rel = stdfs::relative(item, stdfs::path(BasePath()));
+		
+		CFileInfo fileInfo(m_BasePath, rel.generic_string(), item.is_directory());
+		
+		bool isReadOnly = (access(item.path().generic_string().c_str(), W_OK) == -1);
+		IFilePtr pfile = std::make_shared<CNativeFile>(fileInfo, isReadOnly);
+
+		std::lock_guard<std::mutex> set_lock(set_mtx);
+		m_FileList.insert(pfile);
+	});
+
 }
 
 void CNativeFileSystem::Shutdown()
@@ -106,24 +99,20 @@ void CNativeFileSystem::Shutdown()
 	m_IsInitialized = false;
 }
 
-
 bool CNativeFileSystem::IsInitialized() const
 {
 	return m_IsInitialized;
 }
-
 
 const std::string& CNativeFileSystem::BasePath() const
 {
 	return m_BasePath;
 }
 
-
 const IFileSystem::TFileList& CNativeFileSystem::FileList() const
 {
 	return m_FileList;
 }
-
 
 bool CNativeFileSystem::IsReadOnly() const
 {
@@ -136,36 +125,11 @@ bool CNativeFileSystem::IsReadOnly() const
 	if (stat(BasePath().c_str(), &fileStat) < 0) {
 		return false;
 	}
-	return (fileStat.st_mode & S_IWUSR);
+	return (fileStat.st_mode & _S_IREAD &~_S_IWRITE);
 }
-
 
 IFilePtr CNativeFileSystem::OpenFile(const CFileInfo& filePath, int mode)
 {
-	// Check if path exists
-	if (!filePath.BasePath().empty())
-	{
-		DIR *dir = opendir((BasePath() + filePath.BasePath()).c_str());
-		if (dir)
-		{
-			closedir(dir);
-		}
-		else
-		{
-			// Make dir
-			rec_mkdir((BasePath() + filePath.BasePath()).c_str(), 777);
-
-			// Rebuild file list
-			m_FileList.clear();
-			SDir *d = static_cast<SDir*>(opendir(BasePath().c_str()));
-			if (d)
-			{
-				BuildFilelist(d, BasePath(), m_FileList);
-				closedir(d);
-			}
-		}
-	}
-
 	CFileInfo fileInfo(BasePath(), filePath.AbsolutePath(), false);
 	IFilePtr file = FindFile(fileInfo);
 	bool isExists = (file != nullptr);
@@ -184,7 +148,6 @@ IFilePtr CNativeFileSystem::OpenFile(const CFileInfo& filePath, int mode)
 	return file;
 }
 
-
 void CNativeFileSystem::CloseFile(IFilePtr file)
 {
 	if (file)
@@ -192,7 +155,6 @@ void CNativeFileSystem::CloseFile(IFilePtr file)
 		file->Close();
 	}
 }
-
 
 bool CNativeFileSystem::CreateFile(const CFileInfo& filePath)
 {
@@ -214,7 +176,6 @@ bool CNativeFileSystem::CreateFile(const CFileInfo& filePath)
 
 	return result;
 }
-
 
 bool CNativeFileSystem::RemoveFile(const CFileInfo& filePath)
 {
@@ -258,7 +219,6 @@ bool CNativeFileSystem::CopyFile(const CFileInfo& src, const CFileInfo& dest)
 	return result;
 }
 
-
 bool CNativeFileSystem::RenameFile(const CFileInfo& src, const CFileInfo& dest)
 {
 	if (!IsReadOnly())
@@ -289,12 +249,10 @@ bool CNativeFileSystem::RenameFile(const CFileInfo& src, const CFileInfo& dest)
 	return result;
 }
 
-
 bool CNativeFileSystem::IsFileExists(const CFileInfo& filePath) const
 {
 	return (FindFile(BasePath() + filePath.AbsolutePath()) != nullptr);
 }
-
 
 bool CNativeFileSystem::IsFile(const CFileInfo& filePath) const
 {
@@ -307,7 +265,6 @@ bool CNativeFileSystem::IsFile(const CFileInfo& filePath) const
 	return false;
 }
 
-
 bool CNativeFileSystem::IsDir(const CFileInfo& dirPath) const
 {
 	IFilePtr file = FindFile(dirPath);
@@ -318,14 +275,6 @@ bool CNativeFileSystem::IsDir(const CFileInfo& dirPath) const
 
 	return false;
 }
-
-// *****************************************************************************
-// Protected Methods
-// *****************************************************************************
-
-// *****************************************************************************
-// Private Methods
-// *****************************************************************************
 
 IFilePtr CNativeFileSystem::FindFile(const CFileInfo& fileInfo) const
 {
@@ -340,43 +289,4 @@ IFilePtr CNativeFileSystem::FindFile(const CFileInfo& fileInfo) const
 	}
 
 	return nullptr;
-}
-
-void CNativeFileSystem::BuildFilelist(SDir* dir,
-	std::string basePath,
-	TFileList& outFileList)
-{
-	if (!CStringUtils::EndsWith(basePath, "/"))
-	{
-		basePath += "/";
-	}
-
-	struct dirent *ent;
-	while ((ent = readdir(dir)) != NULL)
-	{
-		std::string filename = ent->d_name;
-		std::string filepath = basePath + filename;
-		SDir *childDir = static_cast<SDir*>(opendir(filepath.c_str()));
-		bool isDotOrDotDot = CStringUtils::EndsWith(filename, ".") && childDir;
-		if (childDir && !isDotOrDotDot)
-		{
-			filename += "/";
-		}
-
-		CFileInfo fileInfo(basePath, filename, childDir != NULL);
-		if (!FindFile(fileInfo))
-		{
-			IFilePtr file(new CNativeFile(fileInfo));
-			outFileList.insert(file);
-		}
-
-		if (childDir)
-		{
-			if (!isDotOrDotDot)
-			{
-				BuildFilelist(childDir, (childDir ? filepath : basePath), outFileList);
-			}
-			closedir(childDir);
-		}
-	}
 }
