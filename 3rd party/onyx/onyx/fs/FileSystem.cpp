@@ -106,16 +106,16 @@ void FileSystem::attach(std::string path, std::string virtualRoot, FileSystemAtt
 		case FileSystemAttachMode::ZipFile:
 		{
 			auto zipFs = new vfspp::CZipFileSystem("./gamedata/" + path, virtualRoot);
-			vfspp::IFileSystemPtr pFs(zipFs);
-			pFs->Initialize();
-			vfs->AddFileSystem(virtualRoot, pFs);
+			vfspp::IFileSystemPtr pfs(zipFs);
+			pfs->Initialize();
+			vfs->AddFileSystem(virtualRoot, pfs);
 			break;
 		}
 		case FileSystemAttachMode::Memory:
 		{
-			vfspp::IFileSystemPtr _(new vfspp::CMemoryFileSystem());
-			_->Initialize();
-			vfs->AddFileSystem(virtualRoot, _);
+			vfspp::IFileSystemPtr pfs(new vfspp::CMemoryFileSystem());
+			pfs->Initialize();
+			vfs->AddFileSystem(virtualRoot, pfs);
 			break;
 		}
 	}
