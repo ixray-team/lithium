@@ -22,22 +22,22 @@
     <ClInclude Include="onyx\noncopyable.hpp">
       <Filter>noncopyable</Filter>
     </ClInclude>
-    <ClInclude Include="onyx\crc.h">
+    <ClInclude Include="onyx\fs\FileSystem.h">
+      <Filter>fs</Filter>
+    </ClInclude>
+    <ClInclude Include="onyx\fs\IFile.h">
+      <Filter>fs</Filter>
+    </ClInclude>
+    <ClInclude Include="onyx\crc\crc.h">
       <Filter>crc</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem.h">
-      <Filter>fs</Filter>
-    </ClInclude>
-    <ClInclude Include="IFile.h">
-      <Filter>fs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="onyx\crc.cpp">
-      <Filter>crc</Filter>
-    </ClCompile>
-    <ClCompile Include="FileSystem.cpp">
+    <ClCompile Include="onyx\fs\FileSystem.cpp">
       <Filter>fs</Filter>
+    </ClCompile>
+    <ClCompile Include="onyx\crc\crc.cpp">
+      <Filter>crc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

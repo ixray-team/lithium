@@ -33,7 +33,7 @@
 #include "../monster_velocity_space.h"
 #include "../anti_aim_ability.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 namespace detail
 {
@@ -378,7 +378,7 @@ BOOL CBaseMonster::net_Spawn (CSE_Abstract* DC)
 
 void CBaseMonster::net_Destroy()
 {
-	// функция должена быть вызвана перед inherited
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ inherited
 	if (m_controlled) m_controlled->on_destroy	();
 	if (StateMan) StateMan->critical_finalize	();
 

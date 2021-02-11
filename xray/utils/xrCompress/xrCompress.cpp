@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "xrCompress.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 //typedef void DUMMY_STUFF (const void*,const u32&,void*);
 //XRCORE_API DUMMY_STUFF	*g_temporary_stuff;

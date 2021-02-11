@@ -1,5 +1,9 @@
 #include "FileSystem.h"
 
+#include <filesystem>
+#include <algorithm>
+#include <execution>
+
 using namespace onyx;
 
 fsize_t onyx::IFile::idGenerator = 0;
@@ -22,7 +26,14 @@ FileSystem* FileSystem::Instance()
 FileSystem::FileSystem()
 {
 	vfspp::vfs_initialize();
+	vfs = vfspp::vfs_get_global();
 
+	// --- Create cache FS
+	vfspp::IFileSystemPtr fs_cache(new vfspp::CNativeFileSystem("./cache/"));
+	fs_cache->Initialize();
+	vfs->AddFileSystem("cache/", fs_cache);
+
+	// --- Create game resources FS
 	const std::string basePath = "./gamedata/";
 
 	std::vector<std::string> fsFolders {
@@ -30,11 +41,15 @@ FileSystem::FileSystem()
 		"shaders/", "sounds/", "spawns/", "textures/"
 	};
 
-	vfs = vfspp::vfs_get_global();
+	std::mutex vfs_mtx;
+	std::for_each(std::execution::par, fsFolders.begin(), fsFolders.end(), [&](std::string& folder) {
+		vfspp::IFileSystemPtr fs_res(new vfspp::CNativeFileSystem(basePath + folder));
+		fs_res->Initialize();
+		std::lock_guard<std::mutex> vfs_lock(vfs_mtx);
+		vfs->AddFileSystem(folder, fs_res);
+	});
 
-	for (const std::string& folder : fsFolders)
-		vfs->AddFileSystem(folder, vfspp::IFileSystemPtr(new vfspp::CNativeFileSystem(basePath + folder)));
-
+	// --- Create in-memory storage
 	vfspp::IFileSystemPtr fs_tmp(new vfspp::CMemoryFileSystem());
 	vfs->AddFileSystem("tmp/", fs_tmp);
 	vfs->AddFileSystem("temp/", fs_tmp);
@@ -83,7 +98,9 @@ void FileSystem::attach(std::string path, std::string virtualRoot, FileSystemAtt
 	{
 		case FileSystemAttachMode::PhysicalFS:
 		{
-			vfs->AddFileSystem(virtualRoot, vfspp::IFileSystemPtr(new vfspp::CNativeFileSystem("./gamedata/" + path)));
+			vfspp::IFileSystemPtr pfs(new vfspp::CNativeFileSystem("./gamedata/" + path));
+			pfs->Initialize();
+			vfs->AddFileSystem(virtualRoot, pfs);
 			break;
 		}
 		case FileSystemAttachMode::ZipFile:
@@ -97,6 +114,7 @@ void FileSystem::attach(std::string path, std::string virtualRoot, FileSystemAtt
 		case FileSystemAttachMode::Memory:
 		{
 			vfspp::IFileSystemPtr _(new vfspp::CMemoryFileSystem());
+			_->Initialize();
 			vfs->AddFileSystem(virtualRoot, _);
 			break;
 		}

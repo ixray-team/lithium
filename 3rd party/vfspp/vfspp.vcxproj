@@ -112,6 +112,7 @@
     <ClCompile>
       <PreprocessorDefinitions>PLATFORM=Windows;_DEBUG</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
       <OutputFile>$(SolutionDir)..\..\SDK\libraries\$(Platform)\$(TargetName)$(TargetExt)</OutputFile>

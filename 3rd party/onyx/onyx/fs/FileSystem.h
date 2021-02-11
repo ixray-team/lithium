@@ -2,7 +2,7 @@
 
 #include <string>
 #include <fstream>
-#include "onyx/noncopyable.hpp"
+#include <onyx/noncopyable.hpp>
 
 #include <vfspp/VFS.h>
 #include <vfspp/CVirtualFileSystem.h>

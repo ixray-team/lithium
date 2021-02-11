@@ -18,9 +18,9 @@ using namespace vfspp;
 // Public Methods
 // *****************************************************************************
 
-CNativeFile::CNativeFile(const CFileInfo& fileInfo)
+CNativeFile::CNativeFile(const CFileInfo& fileInfo, bool isReadOnly)
 : m_FileInfo(fileInfo)
-, m_IsReadOnly(true)
+, m_IsReadOnly(isReadOnly)
 , m_Mode(0)
 {
 }

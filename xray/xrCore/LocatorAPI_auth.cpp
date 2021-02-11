@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 struct	auth_options	{
 	xr_vector<shared_str>				ignore;

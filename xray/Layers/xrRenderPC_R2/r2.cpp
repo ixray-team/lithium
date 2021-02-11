@@ -625,7 +625,7 @@ static HRESULT create_shader				(
 	return				_result;
 }
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 static inline bool match_shader_id	( LPCSTR const debug_shader_id, LPCSTR const full_shader_id, FS_FileSet const& file_set, string_path& result );
 

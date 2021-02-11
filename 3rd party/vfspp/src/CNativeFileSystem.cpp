@@ -5,9 +5,21 @@
 //  Created by Yevgeniy Logachev on 6/23/16.
 //
 //
+#include <vector>
+#include <filesystem>
+#include <algorithm>
+#include <execution>
+
+#ifdef _WIN32
+#include <io.h>
+#define access _access
+#define W_OK 2
+#else
+#include <unistd.h>
+#endif
 
 #include "CNativeFileSystem.h"
-#include <dirent.h>
+//#include <dirent.h>
 #include <fstream>
 #include "CNativeFile.h"
 #include "CStringUtilsVFS.h"
@@ -30,40 +42,6 @@
 using namespace vfspp;
 
 // *****************************************************************************
-// Constants
-// *****************************************************************************
-
-const uint64_t kChunkSize = 1024;
-struct SDir : public DIR {};
-
-// *****************************************************************************
-// Internal Methods
-// *****************************************************************************
-// https://stackoverflow.com/questions/2336242/recursive-mkdir-system-call-on-unix
-void rec_mkdir(const char *dir, int mode) 
-{
-	char tmp[MAX_PATH];
-	char *p = NULL;
-	size_t len;
-
-	snprintf(tmp, sizeof(tmp), "%s", dir);
-	len = strlen(tmp);
-	if (tmp[len - 1] == '/')
-		tmp[len - 1] = 0;
-	for (p = tmp + 1; *p; p++)
-	{
-		if (*p == '/') 
-		{
-			*p = 0;
-			mkdir(tmp, mode);
-			*p = '/';
-		}
-	}
-
-	mkdir(tmp, mode);
-}
-
-// *****************************************************************************
 // Public Methods
 // *****************************************************************************
 
@@ -84,19 +62,34 @@ CNativeFileSystem::~CNativeFileSystem()
 
 void CNativeFileSystem::Initialize()
 {
+	namespace stdfs = std::filesystem;
+
 	if (m_IsInitialized)
-	{
 		return;
-	}
 
-	SDir *dir = static_cast<SDir*>(opendir(BasePath().c_str()));
-	if (dir)
-	{
-		BuildFilelist(dir, BasePath(), m_FileList);
-		m_IsInitialized = true;
+	auto& it = stdfs::recursive_directory_iterator(BasePath());
+	std::vector<stdfs::directory_entry> cache;
+	std::copy(stdfs::begin(it), stdfs::end(it), std::back_inserter(cache));
 
-		closedir(dir);
-	}
+	std::mutex set_mtx;
+
+	std::for_each(std::execution::par, cache.begin(), cache.end(), [&](stdfs::directory_entry& item) {
+		
+		if (item._Is_symlink_or_junction() || (!item.is_directory() && !item.is_regular_file()))
+			return;
+
+		stdfs::path rel = stdfs::relative(item, stdfs::path(BasePath()));
+		
+		CFileInfo fileInfo(m_BasePath, rel.generic_string(), item.is_directory());
+		
+		stdfs::perms permissions = item.status().permissions();
+		bool isReadOnly = (access(item.path().generic_string().c_str(), W_OK) == -1);
+		IFilePtr pfile = std::make_shared<CNativeFile>(fileInfo, isReadOnly);
+
+		std::lock_guard<std::mutex> set_lock(set_mtx);
+		m_FileList.insert(pfile);
+	});
+
 }
 
 void CNativeFileSystem::Shutdown()
@@ -136,36 +129,12 @@ bool CNativeFileSystem::IsReadOnly() const
 	if (stat(BasePath().c_str(), &fileStat) < 0) {
 		return false;
 	}
-	return (fileStat.st_mode & S_IWUSR);
+	return (fileStat.st_mode & _S_IREAD &~_S_IWRITE);
 }
 
 
 IFilePtr CNativeFileSystem::OpenFile(const CFileInfo& filePath, int mode)
 {
-	// Check if path exists
-	if (!filePath.BasePath().empty())
-	{
-		DIR *dir = opendir((BasePath() + filePath.BasePath()).c_str());
-		if (dir)
-		{
-			closedir(dir);
-		}
-		else
-		{
-			// Make dir
-			rec_mkdir((BasePath() + filePath.BasePath()).c_str(), 777);
-
-			// Rebuild file list
-			m_FileList.clear();
-			SDir *d = static_cast<SDir*>(opendir(BasePath().c_str()));
-			if (d)
-			{
-				BuildFilelist(d, BasePath(), m_FileList);
-				closedir(d);
-			}
-		}
-	}
-
 	CFileInfo fileInfo(BasePath(), filePath.AbsolutePath(), false);
 	IFilePtr file = FindFile(fileInfo);
 	bool isExists = (file != nullptr);
@@ -243,13 +212,13 @@ bool CNativeFileSystem::CopyFile(const CFileInfo& src, const CFileInfo& dest)
 
 		if (fromFile && toFile)
 		{
-			uint64_t size = kChunkSize;
+			uint64_t size = 1024; //kChunkSize;
 			std::vector<uint8_t> buff((size_t)size);
 			do
 			{
-				fromFile->Read(buff.data(), kChunkSize);
+				fromFile->Read(buff.data(), 1024);
 				toFile->Write(buff.data(), size);
-			} while (size == kChunkSize);
+			} while (size == 1024);
 
 			result = true;
 		}
@@ -342,6 +311,7 @@ IFilePtr CNativeFileSystem::FindFile(const CFileInfo& fileInfo) const
 	return nullptr;
 }
 
+/*
 void CNativeFileSystem::BuildFilelist(SDir* dir,
 	std::string basePath,
 	TFileList& outFileList)
@@ -380,3 +350,4 @@ void CNativeFileSystem::BuildFilelist(SDir* dir,
 		}
 	}
 }
+*/

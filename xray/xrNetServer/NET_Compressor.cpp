@@ -20,7 +20,7 @@
 #		pragma warning(pop)
 #	endif // DEBUG
 
-#	include <onyx/crc.h>
+#	include <onyx/crc/crc.h>
 
 #	if NET_USE_LZO_COMPRESSION
 #		define	ENCODE	rtc9_compress

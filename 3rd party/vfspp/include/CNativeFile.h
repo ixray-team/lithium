@@ -17,7 +17,7 @@ namespace vfspp
 class CNativeFile final : public IFile
 {
 public:
-    CNativeFile(const CFileInfo& fileInfo);
+    CNativeFile(const CFileInfo& fileInfo, bool isReadOnly = true);
     ~CNativeFile();
     
     /*

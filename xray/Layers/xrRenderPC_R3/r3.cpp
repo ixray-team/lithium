@@ -871,7 +871,7 @@ public:
 	}
 };
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 HRESULT	CRender::shader_compile			(
 	LPCSTR							name,

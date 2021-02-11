@@ -595,8 +595,8 @@ int stack_overflow_exception_filter	(int exception_code)
        return EXCEPTION_CONTINUE_SEARCH;
 }
 
-#include <onyx/crc.h>
-
+#include <onyx/crc/crc.h>
+#include <onyx/fs/FileSystem.h>
 int APIENTRY WinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      char *    lpCmdLine,
@@ -604,6 +604,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 {
 
 	crc::crcInit();
+	onyx::fs();
 
 	__try 
 	{
