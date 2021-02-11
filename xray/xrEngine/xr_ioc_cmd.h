@@ -6,8 +6,6 @@
 #define CMD3(cls,p1,p2,p3)			{ static cls x##cls(p1,p2,p3);		Console->AddCommand(&x##cls);}
 #define CMD4(cls,p1,p2,p3,p4)		{ static cls x##cls(p1,p2,p3,p4);	Console->AddCommand(&x##cls);}
 
-#include "xrSASH.h"
-
 class ENGINE_API	IConsole_Command
 {
 public		:
@@ -29,7 +27,7 @@ protected	:
 
 	IC	bool		EQ(LPCSTR S1, LPCSTR S2) { return xr_strcmp(S1,S2)==0; }
 public		:
-	IConsole_Command		(LPCSTR N	BENCH_SEC_SIGN) : 
+	IConsole_Command		(LPCSTR N) : 
 	  cName				(N),
 	  bEnabled			(TRUE),
 	  bLowerCaseArgs	(TRUE),
@@ -44,16 +42,12 @@ public		:
 			Console->RemoveCommand(this);
 	};
 
-	BENCH_SEC_SCRAMBLEVTBL3
-
 	LPCSTR			Name()			{ return cName;	}
 	void			InvalidSyntax() {
 		TInfo I; Info(I);
 		Msg("~ Invalid syntax in call to '%s'",cName);
 		Msg("~ Valid arguments: %s", I);
 
-		g_SASH.OnConsoleInvalidSyntax("~ Invalid syntax in call to '%s'",cName, false);
-		g_SASH.OnConsoleInvalidSyntax("~ Valid arguments: %s", I, true);
 	}
 	virtual void	Execute	(LPCSTR args)	= 0;
 	virtual void	Status	(TStatus& S)	{ S[0]=0; }
@@ -62,8 +56,6 @@ public		:
 		TStatus		S;	Status(S);
 		if (S[0])	F->w_printf("%s %s\r\n",cName,S); 
 	}
-
-	BENCH_SEC_SCRAMBLEVTBL2
 
 	virtual void	fill_tips		(vecTips& tips, u32 mode)
 	{
