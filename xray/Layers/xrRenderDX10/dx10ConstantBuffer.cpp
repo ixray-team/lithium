@@ -4,7 +4,7 @@
 #include "dx10BufferUtils.h"
 #include "../xrRender/dxRenderDeviceRender.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 dx10ConstantBuffer::~dx10ConstantBuffer()
 {

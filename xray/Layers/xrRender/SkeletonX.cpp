@@ -20,7 +20,7 @@
 #include "../../xrEngine/fmesh.h"
 #include "../../xrCPU_Pipe/xrCPU_Pipe.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 shared_str	s_bones_array_const;
 

@@ -24,7 +24,7 @@
 #endif
 //#include "../../../Layers/xrRender/SkeletonAnimated.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 ECORE_API BOOL g_force16BitTransformQuant = FALSE;
 ECORE_API float g_EpsSkelPositionDelta = EPS_L;

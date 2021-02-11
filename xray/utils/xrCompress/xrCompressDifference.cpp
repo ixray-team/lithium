@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 #ifndef MOD_COMPRESS
 

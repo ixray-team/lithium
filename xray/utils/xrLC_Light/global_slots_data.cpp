@@ -3,7 +3,7 @@
 #include "global_slots_data.h"
 #include "serialize.h"
 
-#include <onyx/crc.h>
+#include <onyx/crc/crc.h>
 
 void	global_slots_data::	Load			( )
 {
