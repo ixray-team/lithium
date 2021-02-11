@@ -16,10 +16,10 @@
 #define W_OK 2
 #else
 #include <unistd.h>
+#include <dirent.h>
 #endif
 
 #include "CNativeFileSystem.h"
-//#include <dirent.h>
 #include <fstream>
 #include "CNativeFile.h"
 #include "CStringUtilsVFS.h"
@@ -40,6 +40,8 @@
 #endif
 
 using namespace vfspp;
+
+constexpr size_t kChunkSize = 1024;
 
 // *****************************************************************************
 // Public Methods
@@ -82,7 +84,6 @@ void CNativeFileSystem::Initialize()
 		
 		CFileInfo fileInfo(m_BasePath, rel.generic_string(), item.is_directory());
 		
-		stdfs::perms permissions = item.status().permissions();
 		bool isReadOnly = (access(item.path().generic_string().c_str(), W_OK) == -1);
 		IFilePtr pfile = std::make_shared<CNativeFile>(fileInfo, isReadOnly);
 
@@ -99,24 +100,20 @@ void CNativeFileSystem::Shutdown()
 	m_IsInitialized = false;
 }
 
-
 bool CNativeFileSystem::IsInitialized() const
 {
 	return m_IsInitialized;
 }
-
 
 const std::string& CNativeFileSystem::BasePath() const
 {
 	return m_BasePath;
 }
 
-
 const IFileSystem::TFileList& CNativeFileSystem::FileList() const
 {
 	return m_FileList;
 }
-
 
 bool CNativeFileSystem::IsReadOnly() const
 {
@@ -131,7 +128,6 @@ bool CNativeFileSystem::IsReadOnly() const
 	}
 	return (fileStat.st_mode & _S_IREAD &~_S_IWRITE);
 }
-
 
 IFilePtr CNativeFileSystem::OpenFile(const CFileInfo& filePath, int mode)
 {
@@ -153,7 +149,6 @@ IFilePtr CNativeFileSystem::OpenFile(const CFileInfo& filePath, int mode)
 	return file;
 }
 
-
 void CNativeFileSystem::CloseFile(IFilePtr file)
 {
 	if (file)
@@ -161,7 +156,6 @@ void CNativeFileSystem::CloseFile(IFilePtr file)
 		file->Close();
 	}
 }
-
 
 bool CNativeFileSystem::CreateFile(const CFileInfo& filePath)
 {
@@ -183,7 +177,6 @@ bool CNativeFileSystem::CreateFile(const CFileInfo& filePath)
 
 	return result;
 }
-
 
 bool CNativeFileSystem::RemoveFile(const CFileInfo& filePath)
 {
@@ -212,13 +205,13 @@ bool CNativeFileSystem::CopyFile(const CFileInfo& src, const CFileInfo& dest)
 
 		if (fromFile && toFile)
 		{
-			uint64_t size = 1024; //kChunkSize;
+			uint64_t size = kChunkSize;
 			std::vector<uint8_t> buff((size_t)size);
 			do
 			{
-				fromFile->Read(buff.data(), 1024);
+				fromFile->Read(buff.data(), kChunkSize);
 				toFile->Write(buff.data(), size);
-			} while (size == 1024);
+			} while (size == kChunkSize);
 
 			result = true;
 		}
@@ -226,7 +219,6 @@ bool CNativeFileSystem::CopyFile(const CFileInfo& src, const CFileInfo& dest)
 
 	return result;
 }
-
 
 bool CNativeFileSystem::RenameFile(const CFileInfo& src, const CFileInfo& dest)
 {
@@ -258,12 +250,10 @@ bool CNativeFileSystem::RenameFile(const CFileInfo& src, const CFileInfo& dest)
 	return result;
 }
 
-
 bool CNativeFileSystem::IsFileExists(const CFileInfo& filePath) const
 {
 	return (FindFile(BasePath() + filePath.AbsolutePath()) != nullptr);
 }
-
 
 bool CNativeFileSystem::IsFile(const CFileInfo& filePath) const
 {
@@ -276,7 +266,6 @@ bool CNativeFileSystem::IsFile(const CFileInfo& filePath) const
 	return false;
 }
 
-
 bool CNativeFileSystem::IsDir(const CFileInfo& dirPath) const
 {
 	IFilePtr file = FindFile(dirPath);
@@ -287,14 +276,6 @@ bool CNativeFileSystem::IsDir(const CFileInfo& dirPath) const
 
 	return false;
 }
-
-// *****************************************************************************
-// Protected Methods
-// *****************************************************************************
-
-// *****************************************************************************
-// Private Methods
-// *****************************************************************************
 
 IFilePtr CNativeFileSystem::FindFile(const CFileInfo& fileInfo) const
 {
@@ -310,44 +291,3 @@ IFilePtr CNativeFileSystem::FindFile(const CFileInfo& fileInfo) const
 
 	return nullptr;
 }
-
-/*
-void CNativeFileSystem::BuildFilelist(SDir* dir,
-	std::string basePath,
-	TFileList& outFileList)
-{
-	if (!CStringUtils::EndsWith(basePath, "/"))
-	{
-		basePath += "/";
-	}
-
-	struct dirent *ent;
-	while ((ent = readdir(dir)) != NULL)
-	{
-		std::string filename = ent->d_name;
-		std::string filepath = basePath + filename;
-		SDir *childDir = static_cast<SDir*>(opendir(filepath.c_str()));
-		bool isDotOrDotDot = CStringUtils::EndsWith(filename, ".") && childDir;
-		if (childDir && !isDotOrDotDot)
-		{
-			filename += "/";
-		}
-
-		CFileInfo fileInfo(basePath, filename, childDir != NULL);
-		if (!FindFile(fileInfo))
-		{
-			IFilePtr file(new CNativeFile(fileInfo));
-			outFileList.insert(file);
-		}
-
-		if (childDir)
-		{
-			if (!isDotOrDotDot)
-			{
-				BuildFilelist(childDir, (childDir ? filepath : basePath), outFileList);
-			}
-			closedir(childDir);
-		}
-	}
-}
-*/
