@@ -165,13 +165,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="onyx\dynLib\DynamicLibRef.h" />
     <ClInclude Include="onyx\fs\FileSystem.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="onyx\fs\IFile.h" />
     <ClInclude Include="onyx\crc\crc.h" />
     <ClInclude Include="onyx\noncopyable.hpp" />
+    <ClInclude Include="onyx\string_extensions.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="onyx\dynLib\DynamicLibRef.cpp" />
     <ClCompile Include="onyx\fs\FileSystem.cpp" />
     <ClCompile Include="onyx\crc\crc.cpp" />
   </ItemGroup>

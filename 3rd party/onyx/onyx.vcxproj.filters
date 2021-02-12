@@ -14,6 +14,9 @@
     <Filter Include="fs">
       <UniqueIdentifier>{5cb1f817-4128-459d-a648-32634e4376ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dynlib">
+      <UniqueIdentifier>{2f3fed60-85da-41a5-a2dc-1de37e3aa173}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -31,6 +34,12 @@
     <ClInclude Include="onyx\crc\crc.h">
       <Filter>crc</Filter>
     </ClInclude>
+    <ClInclude Include="onyx\dynLib\DynamicLibRef.h">
+      <Filter>dynlib</Filter>
+    </ClInclude>
+    <ClInclude Include="onyx\string_extensions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="onyx\fs\FileSystem.cpp">
@@ -38,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="onyx\crc\crc.cpp">
       <Filter>crc</Filter>
+    </ClCompile>
+    <ClCompile Include="onyx\dynLib\DynamicLibRef.cpp">
+      <Filter>dynlib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
