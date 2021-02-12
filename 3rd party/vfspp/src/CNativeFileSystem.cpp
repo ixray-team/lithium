@@ -69,19 +69,24 @@ void CNativeFileSystem::Initialize()
 	if (m_IsInitialized)
 		return;
 
+	if (!stdfs::exists(BasePath()))
+	{
+		stdfs::create_directory(BasePath());
+	}
+
 	auto& it = stdfs::recursive_directory_iterator(BasePath());
 	std::vector<stdfs::directory_entry> cache;
 	std::copy(stdfs::begin(it), stdfs::end(it), std::back_inserter(cache));
-
+	stdfs::path basePath(BasePath());
 	std::mutex set_mtx;
 	std::for_each(std::execution::par, cache.begin(), cache.end(), [&](stdfs::directory_entry& item) {
 		
 		if (item._Is_symlink_or_junction() || (!item.is_directory() && !item.is_regular_file()))
 			return;
 
-		stdfs::path rel = stdfs::relative(item, stdfs::path(BasePath()));
-		
-		CFileInfo fileInfo(m_BasePath, rel.generic_string(), item.is_directory());
+		std::string baseStr = stdfs::relative(item.path().parent_path(), basePath).generic_string();
+		std::string fname = item.path().filename().generic_string();
+		CFileInfo fileInfo(basePath.generic_string()+baseStr, fname, item.is_directory());
 		
 		bool isReadOnly = (access(item.path().generic_string().c_str(), W_OK) == -1);
 		IFilePtr pfile = std::make_shared<CNativeFile>(fileInfo, isReadOnly);
@@ -251,7 +256,16 @@ bool CNativeFileSystem::RenameFile(const CFileInfo& src, const CFileInfo& dest)
 
 bool CNativeFileSystem::IsFileExists(const CFileInfo& filePath) const
 {
-	return (FindFile(BasePath() + filePath.AbsolutePath()) != nullptr);
+	std::string fp = BasePath() + filePath.AbsolutePath();
+
+	size_t start_pos = 0;
+	while ((start_pos = fp.find("//", start_pos)) != std::string::npos)
+	{
+		fp.replace(start_pos, 2, "/");
+		start_pos += 1;
+	}
+
+	return (FindFile(filePath) != nullptr);
 }
 
 bool CNativeFileSystem::IsFile(const CFileInfo& filePath) const

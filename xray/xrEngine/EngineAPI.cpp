@@ -7,7 +7,7 @@
 #include "../xrcdb/xrXRC.h"
 
 #include "securom_api.h"
-#include "onyx/DynamicLibRef.h"
+#include <onyx/dynlib/DynamicLibRef.h>
 #include <functional>
 
 extern xr_token* vid_quality_token;
