@@ -53,4 +53,5 @@
 
 template<typename T> using ref_ptr = typename Diligent::template RefCntAutoPtr<T>;
 
-#include <FileSystem.h>
+#include <onyx/string_extensions.hpp>
+#include <onyx/fs/FileSystem.h>

@@ -19,5 +19,9 @@ public:
 private:
 	ref_ptr<struct Diligent::IShader> ps;
 	ref_ptr<struct Diligent::IShader> vs;
+
+private:
+	void create_default_vs(LPCSTR tex = 0);
+	void create_default_ps(LPCSTR tex = 0);
 };
 

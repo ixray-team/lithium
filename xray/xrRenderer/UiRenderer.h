@@ -33,8 +33,5 @@ public:
 
 private:
 	IDiligentRenderingHost* device;
-
-	Diligent::IBuffer* uiVertexBuffer = nullptr;
-
 };
 

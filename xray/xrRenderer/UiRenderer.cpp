@@ -27,32 +27,12 @@ IUIRender* UiRenderer::Instance()
 
 void UiRenderer::CreateUIGeom()
 {
-	Diligent::IRenderDevice* dev = device->dilGetDevice();
-	
-	Diligent::BufferDesc vertexBufferDesc;
-	vertexBufferDesc.Name = "UI Geometry Vertex Buffer";
-	vertexBufferDesc.Usage = Diligent::USAGE::USAGE_DEFAULT;
-	vertexBufferDesc.BindFlags = Diligent::BIND_FLAGS::BIND_VERTEX_BUFFER;
-	//vertexBufferDesc.CPUAccessFlags = Diligent::CPU_ACCESS_FLAGS::CPU_ACCESS_READ | Diligent::CPU_ACCESS_FLAGS::CPU_ACCESS_WRITE;
-	vertexBufferDesc.Mode = Diligent::BUFFER_MODE::BUFFER_MODE_RAW;
-	vertexBufferDesc.uiSizeInBytes = sizeof(float) * 2 * 4;		// Float2 x 4 verts (screen quad)
-	vertexBufferDesc.ElementByteStride = 2 * sizeof(float);
-
-	Diligent::BufferData bdata;
-	bdata.DataSize = sizeof(float) * 2 * 4;
-	bdata.pData = (void*) new float[2 * 4]{
-		-1.f, -1.f,
-		1.f, -1.f,
-		-1.f, 1.f,
-		1.f, 1.f
-	};
-
-	dev->CreateBuffer(vertexBufferDesc, &bdata, &uiVertexBuffer);
+	// UI geometry is being drawn in UI vertex shader
 }
 
 void UiRenderer::DestroyUIGeom()
 {
-	uiVertexBuffer->Release();
+	// UI geometry is being drawn in UI vertex shader
 }
 
 void UiRenderer::SetShader(IUIShader& shader)
