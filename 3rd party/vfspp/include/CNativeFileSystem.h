@@ -109,9 +109,12 @@ private:
     //void BuildFilelist(SDir* dir, std::string basePath, TFileList& outFileList);
     
 private:
-    std::string m_BasePath;
-    bool m_IsInitialized;
-    TFileList m_FileList;
+    std::string basePath;
+    bool initialized;
+    std::vector<std::filesystem::directory_entry> cache;
+
+    TFileList outCache;
+    std::mutex outCacheMtx;
 };
     
 } // namespace vfspp

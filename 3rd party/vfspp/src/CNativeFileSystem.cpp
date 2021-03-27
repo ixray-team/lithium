@@ -47,13 +47,12 @@ constexpr size_t kChunkSize = 1024;
 // Public Methods
 // *****************************************************************************
 
-CNativeFileSystem::CNativeFileSystem(const std::string& basePath)
-	: m_BasePath(basePath)
-	, m_IsInitialized(false)
+CNativeFileSystem::CNativeFileSystem(const std::string& rBasePath)
+	: basePath(rBasePath), initialized(false)
 {
-	if (!CStringUtils::EndsWith(m_BasePath, "/"))
+	if (!CStringUtils::EndsWith(basePath, "/"))
 	{
-		m_BasePath += "/";
+		basePath += "/";
 	}
 }
 
@@ -66,52 +65,52 @@ void CNativeFileSystem::Initialize()
 {
 	namespace stdfs = std::filesystem;
 
-	if (m_IsInitialized)
+	if (initialized)
 		return;
 
 	auto& it = stdfs::recursive_directory_iterator(BasePath());
-	std::vector<stdfs::directory_entry> cache;
 	std::copy(stdfs::begin(it), stdfs::end(it), std::back_inserter(cache));
 
-	std::mutex set_mtx;
+	initialized = true;
+
 	std::for_each(std::execution::par, cache.begin(), cache.end(), [&](stdfs::directory_entry& item) {
-		
+
 		if (item._Is_symlink_or_junction() || (!item.is_directory() && !item.is_regular_file()))
 			return;
 
 		stdfs::path rel = stdfs::relative(item, stdfs::path(BasePath()));
-		
-		CFileInfo fileInfo(m_BasePath, rel.generic_string(), item.is_directory());
-		
+
+		CFileInfo fileInfo(basePath, rel.generic_string(), item.is_directory());
+
 		bool isReadOnly = (access(item.path().generic_string().c_str(), W_OK) == -1);
 		IFilePtr pfile = std::make_shared<CNativeFile>(fileInfo, isReadOnly);
 
-		std::lock_guard<std::mutex> set_lock(set_mtx);
-		m_FileList.insert(pfile);
-	});
-
+		std::lock_guard<std::mutex> set_lock(outCacheMtx);
+		outCache.insert(pfile);
+		});
 }
 
 void CNativeFileSystem::Shutdown()
 {
-	m_BasePath = "";
-	m_FileList.clear();
-	m_IsInitialized = false;
+	basePath = "";
+	std::lock_guard<std::mutex> set_lock(outCacheMtx);
+	cache.clear();
+	initialized = false;
 }
 
 bool CNativeFileSystem::IsInitialized() const
 {
-	return m_IsInitialized;
+	return initialized;
 }
 
 const std::string& CNativeFileSystem::BasePath() const
 {
-	return m_BasePath;
+	return basePath;
 }
 
 const IFileSystem::TFileList& CNativeFileSystem::FileList() const
 {
-	return m_FileList;
+	return outCache;
 }
 
 bool CNativeFileSystem::IsReadOnly() const
