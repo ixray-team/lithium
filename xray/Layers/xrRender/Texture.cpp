@@ -27,13 +27,8 @@ void fix_texture_name(LPSTR fn)
 		*_ext = 0;
 }
 
-  ENGINE_API int g_current_renderer;
-  #ifndef _EDITOR
-  ENGINE_API bool is_enough_address_space_available();
-  #else
-  bool is_enough_address_space_available(){return true;}
-  #endif
-
+  const int g_current_renderer = 2;
+  
 int get_texture_load_lod(LPCSTR fn)
 {
 	CInifile::Sect& sect	= pSettings->r_section("reduce_lod_texture_list");
@@ -43,7 +38,7 @@ int get_texture_load_lod(LPCSTR fn)
 	CInifile::SectCIt it	= it_;
 	CInifile::SectCIt it_e	= it_e_;
 
-	static bool enough_address_space_available = is_enough_address_space_available();
+	const bool enough_address_space_available = true;
 
 	for(;it!=it_e;++it)
 	{

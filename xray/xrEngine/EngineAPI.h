@@ -8,6 +8,8 @@
 #define AFX_ENGINEAPI_H__CF21372B_C8B8_4891_82FC_D872C84E1DD4__INCLUDED_
 #pragma once
 
+#include <onyx/dynLib/DynamicLibRef.h>
+
 // Abstract 'Pure' class for DLL interface
 class ENGINE_API DLL_Pure {
 public:
@@ -37,6 +39,10 @@ private:
 	HMODULE				hGame;
 	HMODULE				hRender;
 	HMODULE				hTuner;
+
+	DynamicLibRef* pLibGame;
+	DynamicLibRef* pLibRenderer;
+
 public:
 	Factory_Create*		pCreate;
 	Factory_Destroy*	pDestroy;

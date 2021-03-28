@@ -33,8 +33,7 @@ int get_texture_load_lod(LPCSTR fn)
 	CInifile::SectCIt it_	= sect.Data.begin();
 	CInifile::SectCIt it_e_	= sect.Data.end();
 
-	ENGINE_API bool is_enough_address_space_available();
-	static bool enough_address_space_available = is_enough_address_space_available();
+	const bool enough_address_space_available = true;
 
 	CInifile::SectCIt it	= it_;
 	CInifile::SectCIt it_e	= it_e_;

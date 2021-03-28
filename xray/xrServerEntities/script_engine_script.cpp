@@ -200,8 +200,7 @@ ICF	u32	script_time_global_async	()	{ return 0; }
 #ifdef XRGAME_EXPORTS
 static bool is_enough_address_space_available_impl()
 {
-	ENGINE_API bool is_enough_address_space_available();
-	return is_enough_address_space_available( );
+	return true;
 }
 #endif // #ifdef XRGAME_EXPORTS
 

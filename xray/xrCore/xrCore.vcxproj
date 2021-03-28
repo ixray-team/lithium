@@ -172,6 +172,7 @@
       </BrowseInformation>
       <WarningLevel>Level4</WarningLevel>
       <DisableSpecificWarnings>4456;4459</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rd party/onyx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <MapFileName>

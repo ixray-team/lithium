@@ -50,7 +50,7 @@ void CEngineAPI::Initialize(void)
 	InitializeNotDedicated();
 
 	{
-		pLibRenderer = new DynamicLibRef("xrRenderer.dll",
+		pLibRenderer = new DynamicLibRef("xrRender_R2.dll",
 			/* error handler */[&]() 
 			{
 				Log("! ERROR loading renderer library! LastError = %d", (u32) GetLastError());
