@@ -23,11 +23,8 @@ CEngineAPI::CEngineAPI	()
 {
 	hGame			= 0;
 	hRender			= 0;
-	hTuner			= 0;
 	pCreate			= 0;
 	pDestroy		= 0;
-	tune_pause		= dummy	;
-	tune_resume		= dummy	;
 
 	vid_quality_token = new xr_token();
 	ZeroMemory(vid_quality_token, sizeof(xr_token));
@@ -75,20 +72,6 @@ void CEngineAPI::Initialize(void)
 		hGame = pLibGame->GetHandle();
 		pCreate = pLibGame->GetMethod("xrFactory_Create");
 		pDestroy = pLibGame->GetMethod("xrFactory_Destroy");
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// vTune
-	tune_enabled		= FALSE;
-	if (strstr(Core.Params,"-tune"))	{
-		LPCSTR			g_name	= "vTuneAPI.dll";
-		Log				("Loading DLL:",g_name);
-		hTuner			= LoadLibrary	(g_name);
-		if (0==hTuner)	R_CHK			(GetLastError());
-		R_ASSERT2		(hTuner,"Intel vTune is not installed");
-		tune_enabled	= TRUE;
-		tune_pause		= (VTPause*)	GetProcAddress(hTuner,"VTPause"		);	R_ASSERT(tune_pause);
-		tune_resume		= (VTResume*)	GetProcAddress(hTuner,"VTResume"	);	R_ASSERT(tune_resume);
 	}
 }
 
