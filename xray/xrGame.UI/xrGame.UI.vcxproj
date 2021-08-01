@@ -109,6 +109,7 @@
       <DisableSpecificWarnings>4251;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
       <AdditionalIncludeDirectories>$(SolutionDir)3rd party/onyx;$(SolutionDir)3rd party/imdexlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,6 +147,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <DisableSpecificWarnings>4251;4503;4530;4995;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>$(SolutionDir)3rd party/imdexlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
