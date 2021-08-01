@@ -350,3 +350,5 @@ opt/
 # vfspp
 3rd party/vfspp/x64*
 3rd party/vfspp/Win32*
+SDK/libraries/x64/vfspp.lib
+SDK/libraries/x86/vfspp.lib
